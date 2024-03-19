@@ -1,0 +1,757 @@
+Program.Sub.ScreenSU.Start
+Gui.frmIssue..Create(BaseForm)
+Gui.frmIssue..Caption("Issue Material")
+Gui.frmIssue..Size(15225,8280)
+Gui.frmIssue..MinX(0)
+Gui.frmIssue..MinY(0)
+Gui.frmIssue..Position(0,0)
+Gui.frmIssue..BackColor(-2147483633)
+Gui.frmIssue..MousePointer(0)
+Gui.frmIssue..Event(UnLoad,frmIssue_UnLoad)
+Gui.frmIssue..AlwaysOnTop(False)
+Gui.frmIssue..FontName("Tahoma")
+Gui.frmIssue..FontSize(8.25)
+Gui.frmIssue..ControlBox(True)
+Gui.frmIssue..MaxButton(True)
+Gui.frmIssue..MinButton(True)
+Gui.frmIssue..Moveable(True)
+Gui.frmIssue..Sizeable(True)
+Gui.frmIssue..ShowInTaskBar(True)
+Gui.frmIssue..TitleBar(True)
+Gui.frmIssue.txtSerial.Create(TextBox,"",True,2985,300,0,9300,960,False,0,"Arial",8,-2147483643,1)
+Gui.frmIssue.gsgcRemnants.Create(GsGridControl)
+Gui.frmIssue.gsgcRemnants.Size(14700,2190)
+Gui.frmIssue.gsgcRemnants.Position(225,1380)
+Gui.frmIssue.gsgcRemnants.Enabled(True)
+Gui.frmIssue.gsgcRemnants.Visible(True)
+Gui.frmIssue.gsgcRemnants.Zorder(0)
+Gui.frmIssue.lbl1.Create(Label,"Serial Number",True,2715,255,0,9285,705,True,0,"Arial",8,-2147483633,0,0)
+Gui.frmIssue.lbl1.BorderStyle(0)
+Gui.frmIssue.lbl2.Create(Label,"Flex Schedule",True,1935,255,0,240,90,True,0,"Arial",8,-2147483633,0,0)
+Gui.frmIssue.lbl2.BorderStyle(0)
+Gui.frmIssue.txtProgram.Create(TextBox,"",True,2955,300,0,240,270,False,0,"Arial",8,-2147483643,1)
+Gui.frmIssue.cmdBrowseProg.Create(Button)
+Gui.frmIssue.cmdBrowseProg.Size(585,375)
+Gui.frmIssue.cmdBrowseProg.Position(3405,225)
+Gui.frmIssue.cmdBrowseProg.Caption("^")
+Gui.frmIssue.cmdBrowseProg.Event(Click,cmdBrowseProg_Click)
+Gui.frmIssue.cmdBrowseProg.Enabled(True)
+Gui.frmIssue.cmdBrowseProg.Visible(True)
+Gui.frmIssue.cmdBrowseProg.Zorder(0)
+Gui.frmIssue.cmdBrowseProg.FontName("Tahoma")
+Gui.frmIssue.cmdBrowseProg.FontSize(8.25)
+Gui.frmIssue.cmdBrowseMat.Create(Button)
+Gui.frmIssue.cmdBrowseMat.Size(600,375)
+Gui.frmIssue.cmdBrowseMat.Position(3405,915)
+Gui.frmIssue.cmdBrowseMat.Caption("^")
+Gui.frmIssue.cmdBrowseMat.Event(Click,cmdBrowseMat_Click)
+Gui.frmIssue.cmdBrowseMat.Visible(True)
+Gui.frmIssue.cmdBrowseMat.Enabled(True)
+Gui.frmIssue.cmdBrowseMat.Zorder(0)
+Gui.frmIssue.cmdBrowseMat.FontName("Tahoma")
+Gui.frmIssue.cmdBrowseMat.FontSize(8.25)
+Gui.frmIssue.cmdProcess.Create(Button)
+Gui.frmIssue.cmdProcess.Size(1785,450)
+Gui.frmIssue.cmdProcess.Position(210,7200)
+Gui.frmIssue.cmdProcess.Caption("Process")
+Gui.frmIssue.cmdProcess.Event(Click,cmdProcess_Click)
+Gui.frmIssue.cmdProcess.Enabled(True)
+Gui.frmIssue.cmdProcess.Visible(True)
+Gui.frmIssue.cmdProcess.Zorder(0)
+Gui.frmIssue.cmdProcess.FontName("Tahoma")
+Gui.frmIssue.cmdProcess.FontSize(8.25)
+Gui.frmIssue.txtPart.Create(TextBox,"",True,1710,300,0,4320,960,False,0,"Arial",8,-2147483643,1)
+Gui.frmIssue.txtLot.Create(TextBox,"",True,1590,300,0,6150,960,False,0,"Arial",8,-2147483643,1)
+Gui.frmIssue.txtBin.Create(TextBox,"",True,1215,300,0,7905,960,False,0,"Arial",8,-2147483643,1)
+Gui.frmIssue.txtHeat.Create(TextBox,"",True,3060,300,0,225,1005,False,0,"Arial",8,-2147483643,1)
+Gui.frmIssue.lbl3.Create(Label,"Part",True,1515,255,0,4275,705,True,0,"Arial",8,-2147483633,0,0)
+Gui.frmIssue.lbl3.BorderStyle(0)
+Gui.frmIssue.lbl4.Create(Label,"Lot",True,1515,255,0,6150,705,True,0,"Arial",8,-2147483633,0,0)
+Gui.frmIssue.lbl4.BorderStyle(0)
+Gui.frmIssue.lbl5.Create(Label,"Bin",True,930,255,0,7920,705,True,0,"Arial",8,-2147483633,0,0)
+Gui.frmIssue.lbl5.BorderStyle(0)
+Gui.frmIssue.lbl6.Create(Label,"Heat",True,930,255,0,240,705,True,0,"Arial",8,-2147483633,0,0)
+Gui.frmIssue.lbl6.BorderStyle(0)
+Gui.frmIssue.txtQty.Create(TextBox,"",True,1830,300,0,12585,960,False,0,"Arial",8,-2147483643,1)
+Gui.frmIssue.lbl7.Create(Label,"QTY",True,1860,255,0,12570,705,True,0,"Arial",8,-2147483633,0,0)
+Gui.frmIssue.lbl7.BorderStyle(0)
+Gui.frmIssue.gsgcParts.Create(GsGridControl)
+Gui.frmIssue.gsgcParts.Size(14655,3510)
+Gui.frmIssue.gsgcParts.Position(225,3645)
+Gui.frmIssue.gsgcParts.Enabled(True)
+Gui.frmIssue.gsgcParts.Visible(True)
+Gui.frmIssue.gsgcParts.Zorder(0)
+Gui.frmIssue.txtLength.Create(TextBox,"",True,930,300,0,12615,285,False,0,"Arial",8,-2147483643,1)
+Gui.frmIssue.txtWidth.Create(TextBox,"",True,930,300,0,13755,285,False,0,"Arial",8,-2147483643,1)
+Gui.frmIssue.lbl8.Create(Label,"Length",True,855,255,0,12600,75,True,0,"Arial",8,-2147483633,0,0)
+Gui.frmIssue.lbl8.BorderStyle(0)
+Gui.frmIssue.lbl9.Create(Label,"Width",True,855,255,0,13755,75,True,0,"Arial",8,-2147483633,0,0)
+Gui.frmIssue.lbl9.BorderStyle(0)
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+v.Global.sBins.Declare
+Program.External.Include.Library("JB0455.lib")
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+f.Intrinsic.Control.Try
+	F.ODBC.Connection!CON.Opencompanyconnection(90)
+	v.Local.sSql.Declare
+	v.Local.i.Declare
+	v.Local.ssql.Set("SELECT BIN FROM V_BIN_MASTER order by BIN DESC")
+	f.Data.DataTable.CreateFromSQL("dtBins","con",v.Local.ssql,true)
+	f.Intrinsic.Control.For(v.Local.i,0,v.DataTable.dtBins.RowCount--,1)
+		f.Intrinsic.String.Concat(v.Global.sBins,V.DataTable.dtBins(V.LOCAL.I).BIN!FIELDVAL,"*!*",V.Global.sBins)
+	f.Intrinsic.Control.Next(v.Local.i)
+	gui.frmIssue..Show
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.UI.Msgbox(v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(frmIssue_Unload)
+f.Intrinsic.Control.EndTry
+Program.Sub.Main.End
+
+Program.Sub.cmdBrowseProg_Click.Start
+f.Intrinsic.Control.Try
+	F.Intrinsic.UI.SetBrowserHotTypeAhead(True)
+	V.local.ssql.declare
+	V.Local.sRet.Declare
+	V.Local.sTitles.Declare
+	V.Local.iWidths.Declare
+	V.Local.stemp.Declare
+	v.Local.dDateMax.Declare(Date)
+	v.Local.i.Declare
+	V.Local.SVALS.Declare
+	V.Local.SVALROWS.Declare
+	v.Local.j.Declare(long)
+	V.Local.SMESSAGE.Declare
+	v.Local.sSearch.Declare
+	v.Local.sFlex.Declare
+	v.Local.sProg.Declare
+	v.Local.sGSSMaterial.Declare
+	v.Local.fOnHand.Declare
+	
+	F.intrinsic.string.split("ProgNum*!*Flex Schedule","*!*",Variable.local.sTitles)
+	F.intrinsic.string.split("2000*!*2000","*!*",Variable.local.iWidths)
+	
+	V.Local.ssql.set("select DISTINCT NestID, FlexSchedule From GAB_6836_SIGMANEST")
+	
+	F.intrinsic.ui.browser("Select a Program",con,v.Local.ssql,v.local.sTitles,v.local.iWidths,v.local.sRet)
+	
+	F.intrinsic.control.if(Variable.local.sRet,"=","***CANCEL***")
+	F.intrinsic.control.else
+		F.Intrinsic.String.Split(V.Local.sRet,"*!*",v.Local.sret)
+		v.Local.sProg.Set(v.Local.sRet(0))
+		v.Local.sFlex.Set(v.Local.sRet(1))
+		gui.frmIssue.txtProgram.Text(v.Local.sFlex)
+		
+		'Set the material
+		v.Local.ssql.Set("SELECT DISTINCT GSSMaterial FROM GAB_6836_SIGMANEST WHERE NestID='{0}'")
+		f.Intrinsic.String.Build(v.Local.ssql,v.Local.sProg,v.Local.ssql)
+		f.ODBC.Connection!con.executeandreturn(v.Local.ssql,v.Local.sGSSMaterial)
+		gui.frmIssue.txtPart.Text(v.Local.sGSSMaterial)
+		
+		'Get the onhand quantity
+		f.Intrinsic.String.Build("SELECT QTY_ONHAND FROM V_INVENTORY_MSTR WHERE PART='{0}'",V.Local.sGSSMaterial,v.Local.ssql)
+		f.ODBC.Connection!con.executeandreturn(v.Local.ssql,v.Local.fOnHand)
+		gui.frmIssue.txtQty.Text(v.Local.fOnHand)
+		
+		'Get the Remnants
+		v.Local.ssql.Set("SELECT * FROM GAB_6836_OFFCUTS WHERE NestID='{0}'")
+		f.Intrinsic.String.Build(v.Local.ssql,v.Local.sProg,v.Local.ssql)
+		f.Intrinsic.Control.If(v.DataTable.dtRem.Exists,=,true)
+			f.Data.DataTable.Close("dtRem")
+		f.Intrinsic.Control.EndIf
+		f.Data.DataTable.CreateFromSQL("dtRem","con",v.Local.ssql,true)
+		f.Data.DataTable.AddColumn("dtRem","TotalOffcut","float")
+		f.Data.DataTable.AddColumn("dtRem","DropPart","string")
+		f.Data.DataTable.AddColumn("dtRem","DropLot","string")
+		f.Data.DataTable.AddColumn("dtRem","DropHeat","string")
+		f.Data.DataTable.AddColumn("dtRem","DropSeri","string")
+		
+		gui.frmIssue.gsgcRemnants.DataSource("dtRem")
+		
+		'Get the Parts
+		v.Local.ssql.Set("SELECT * FROM GAB_6836_SIGMANEST WHERE NestID='{0}'")
+		f.Intrinsic.String.Build(v.Local.ssql,v.Local.sProg,v.Local.ssql)
+		f.Intrinsic.Control.If(v.DataTable.dtParts.Exists,=,true)
+			f.Data.DataTable.Close("dtParts")
+		f.Intrinsic.Control.EndIf
+		f.Data.DataTable.CreateFromSQL("dtParts","con",v.Local.ssql,true)
+		f.Data.DataTable.AddColumn("dtParts","Workcentre","string")
+		f.Data.DataTable.AddColumn("dtParts","WOm2Applied","float")
+		f.Data.DataTable.AddColumn("dtParts","PercentRatio","float")
+		f.Data.DataTable.AddColumn("dtParts","SheetArea","float")
+		f.Data.DataTable.AddColumn("dtParts","QuantitySM","float")
+		f.Data.DataTable.AddColumn("dtParts","PartSM","float")
+		f.Data.DataTable.AddColumn("dtParts","SheetLength","float")
+		f.Data.DataTable.AddColumn("dtParts","SheetWidth","float")		
+		f.Data.Datatable.AddColumn("dtParts","BadPiece",float,0)
+		f.Data.Datatable.AddExpressionColumn("dtParts","GoodPiece","Float","RunQty")
+		f.Data.Datatable.AddColumn("dtParts","WC","String","")
+		gui.frmIssue.gsgcParts.DataSource("dtParts")
+		
+		f.Intrinsic.Control.CallSub(checkScrap)
+		
+		f.Data.Datatable.create("dtTime",true)
+		f.Data.Datatable.AddColumn("dtTime","Job","String")
+		f.Data.Datatable.AddColumn("dtTime","Sfx","String")
+		f.Data.Datatable.AddColumn("dtTime","Seq","String")
+		f.Data.Datatable.AddColumn("dtTime","WC","String")
+		f.Data.Datatable.AddColumn("dtTime","HoursEstimated","Float")
+		f.Data.Datatable.AddColumn("dtTime","CutTime","Float")
+		f.Data.Datatable.AddColumn("dtTime","GoodPiece","Float")
+		f.Data.Datatable.AddColumn("dtTime","BadPiece","Float")
+		f.Data.Datatable.AddColumn("dtTime","Hours","Float")
+		f.Data.Datatable.AddColumn("dtTime","UnitsComplete","Float")
+		f.Data.Datatable.AddColumn("dtTime","UnitsOpen","Float")
+		f.Data.Datatable.AddColumn("dtTime","Closed","String")
+
+		F.Intrinsic.Control.CallSub(setProperties)
+		
+	F.Intrinsic.Control.EndIf
+f.Intrinsic.Control.Catch
+	f.Intrinsic.UI.Msgbox(v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(frmIssue_Unload)
+f.Intrinsic.Control.EndTry
+Program.Sub.cmdBrowseProg_Click.End
+
+Program.Sub.setProperties.Start
+f.Intrinsic.Control.Try
+
+	gui.frmIssue.gsgcRemnants.visible(false)
+	gui.frmIssue.gsgcRemnants.AddGridviewFromDatatable("gvRem","dtRem")
+	gui.frmIssue.gsgcRemnants.columnEdit("gvRem","Bin","Dropdownlist",v.global.sBins)
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","Bin","AllowEdit","True")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","Bin","ReadOnly","False")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","TotalOffcut","Visible","False")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","DropPart","Visible","False")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","DropLot","Visible","False")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","DropHeat","Visible","False")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","DropSeri","Visible","False")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","OFFCUT_GSSPART","Visible","False")
+	
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","NESTID","Caption","Nest #")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","OFFCUT_LENGTH","Caption","Offcut Length")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","OFFCUT_WIDTH","Caption","Offcut Width")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","OFFCUT_SM","Caption","Offcut SM")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","OFFCUT_NAME","Caption","Offcut Name")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","BIN","Caption","Bin")
+	
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","NESTID","HeaderFontBold","True")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","OFFCUT_LENGTH","HeaderFontBold","True")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","OFFCUT_WIDTH","HeaderFontBold","True")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","OFFCUT_SM","HeaderFontBold","True")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","OFFCUT_NAME","HeaderFontBold","True")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","BIN","HeaderFontBold","True")
+	
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","NESTID","HeaderHAlignment","Center")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","OFFCUT_LENGTH","HeaderHAlignment","Center")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","OFFCUT_WIDTH","HeaderHAlignment","Center")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","OFFCUT_SM","HeaderHAlignment","Center")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","OFFCUT_NAME","HeaderHAlignment","Center")
+	gui.frmIssue.gsgcRemnants.SetColumnProperty("gvRem","BIN","HeaderHAlignment","Center")
+	
+	
+	gui.frmIssue.gsgcParts.visible(false)
+	gui.frmIssue.gsgcParts.AddGridviewFromDatatable("gvParts","dtParts")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","WC","Visible","False")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","Workcentre","Visible","False")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","WOm2Applied","Visible","False")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","PercentRatio","Visible","False")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","SheetArea","Visible","False")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","QuantitySM","Visible","False")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","PartSM","Visible","False")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","SheetLength","Visible","False")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","SheetWidth","Visible","False")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","NestID","Visible","False")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","FlexSchedule","Visible","False")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","FlexScheduleLoad","Visible","False")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","FlexScheduleUnload","Visible","False")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","FlexScheduleQA","Visible","False")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","FlexScheduleCut","Visible","False")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","ProductionPackage","Visible","False")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","FlexScheduleSuffix","Visible","False")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","Material","Visible","False")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","GSSMaterial","Visible","False")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","RunQty","Visible","False")
+	
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","WorkOrder","HeaderFontBold","True")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","PartLength","HeaderFontBold","True")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","PartWidth","HeaderFontBold","True")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","CutTime","HeaderFontBold","True")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","BadPiece","HeaderFontBold","True")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","GoodPiece","HeaderFontBold","True")
+	
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","WorkOrder","HeaderHAlignment","True")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","PartLength","HeaderHAlignment","True")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","PartWidth","HeaderHAlignment","True")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","CutTime","HeaderHAlignment","True")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","BadPiece","HeaderHAlignment","True")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","GoodPiece","HeaderHAlignment","True")
+	
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","WorkOrder","Caption","Work Order")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","PartLength","Caption","Part Length")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","PartWidth","Caption","Part Width")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","CutTime","Caption","Cut Time")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","BadPiece","Caption","Bad Pieces")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","GoodPiece","Caption","Good Pieces")
+		
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","BadPiece","CellBackColor","LightYellow")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","GoodPiece","CellBackColor","LightYellow")
+	
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","BadPiece","AllowEdit","True")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","GoodPiece","AllowEdit","True")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","BadPiece","ReadOnly","False")
+	gui.frmIssue.gsgcParts.SetColumnProperty("gvParts","GoodPiece","ReadOnly","False")
+	
+	
+	gui.frmIssue.gsgcParts.visible(true)
+	gui.frmIssue.gsgcRemnants.visible(true)
+f.Intrinsic.Control.Catch
+	f.Intrinsic.UI.Msgbox(v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(frmIssue_Unload)
+f.Intrinsic.Control.EndTry
+Program.Sub.setProperties.End
+
+Program.Sub.cmdProcess_Click.Start
+f.Intrinsic.Control.Try
+	v.Local..BulkDeclareString(sClsd,sSTme,sETme,sPCheck,sDate,sDateClose,sWC,sEmpl,sSQLStatements,sMsgConf,sdroplot,sWO,sWeight,sjob,ssuffix,sret,sbasepart,sdroppart,sdropqty,sline,slines,sseq,sLSEQ,sloc,srev,sqty,sserial,sheat,sbin,slot,spart,SSQL)
+	v.Local..BulkDeclareFloat(fGoodBad,fTtlP,fLabTotal,fGood,fBadP,fHour,fTotalUnits,fUnitsComplete,fResult,fTotalIssue,fOnHand,fWeight,fdropqty,fqty,fSMQty,fWidth,fLength,fOffcut,fFinal,fPartWeight,fTotalPartWeight,fRemFinal,fRemCalc,fRemPercent,fRemArea,fTotalRemArea,fRemWeight,fTotalRemWeight,fRemain,fSheet,fCalcVal,fWOQ,fWOA,fSA,fSQ,ftempret,fm2Applied,fPercentRatio,fTotalSheetArea)
+	v.Local.i.Declare(long)
+	v.Local.j.Declare(long)
+	v.local.k.Declare(long)
+	v.Local.x.Declare(long)
+	v.Local.lMsg.Declare(long)
+	v.Local.sTimeStampLot.Declare
+	v.Local.sTimeStampLotFinal.Declare
+	v.Local.dAPSDate.Declare
+	F.Intrinsic.String.Format(V.Ambient.Date,"MMDDYY",v.Local.sDate)
+	v.Local.sEmpl.Set("90000")
+
+	'Add in are you sure message?
+	v.Local.lRet.Declare(long)
+	f.Intrinsic.string.Concat("Are you sure you want to issue this material for work orders ","",v.Local.sMsgConf)
+	f.Intrinsic.Control.For(v.local.x,0,v.DataTable.dtParts.RowCount--,1)
+		f.Intrinsic.string.Concat(v.Local.sMsgConf,v.DataTable.dtParts(v.local.x).WORKORDER!FIELDVALTRIM," ",v.Local.sMsgConf)
+	f.Intrinsic.Control.Next(v.Local.x)
+	f.Intrinsic.UI.Msgbox(v.Local.smsgconf,"Confirmation",4,v.Local.lMsg)
+
+	f.Intrinsic.Control.If(v.Local.lMsg,=,6)
+	
+		
+		'Labour Prereq
+		f.Intrinsic.Control.For(v.Local.i,0,v.DataTable.dtParts.RowCount--,1)
+			f.Intrinsic.Control.If(v.DataTable.dtParts(v.local.i).RowState,<>,8)
+				f.Intrinsic.String.Split(v.DataTable.dtParts(v.Local.i).WorkOrder!fieldvaltrim,"-",v.Local.sWO)
+				v.Local.sJob.Set(v.Local.swo(0))
+				v.Local.ssuffix.Set(v.Local.swo(1))
+				v.Local.sseq.Set(v.Local.swo(2))
+				
+				f.Intrinsic.Control.If(v.Local.ssuffix.Trim,=,"OOB")
+					v.Local.ssuffix.Set("")
+				f.Intrinsic.Control.EndIf
+				
+				f.Intrinsic.Control.If(v.Local.sseq.Trim,=,"OOB")
+					v.Local.sseq.Set("")
+				f.Intrinsic.Control.EndIf
+				
+				F.Intrinsic.String.Concat("Select Part, Units, Hours_Estimated, Hours_Actual, Units_Complete, Units_Open, Operation,Seq from Job_Operations where Job='",v.Local.sJob,"' and Suffix='",v.Local.sSuffix,"' AND Part='LAS1' ",V.Local.sSQL)
+				f.ODBC.Connection!con.ExecuteAndReturn(v.Local.sSQL,v.Local.sret)
+				f.Intrinsic.String.Split(v.Local.sRet,"*!*",v.Local.sRet)
+				F.Intrinsic.Control.If(v.Local.sRet(2),>=,0)
+					F.Intrinsic.Math.Add(V.Local.fLabTotal,v.Local.sRet(2),V.Local.fLabTotal)
+				F.Intrinsic.Control.EndIf
+				f.Data.Datatable.AddRow("dtTime","CutTime",v.DataTable.dtParts(v.Local.i).CutTime!fieldval, "Job",v.Local.sJob,"Sfx",v.Local.sSuffix,"Seq",v.Local.sRet(7),"WC",v.Local.sRet(6),"HoursEstimated",v.Local.sRet(2),"UnitsComplete",v.Local.sRet(4),"UnitsOpen",v.Local.sRet(5),"GoodPiece",v.DataTable.dtParts(v.Local.i).RunQty!fieldval,"BadPiece",v.DataTable.dtParts(v.Local.i).BadPiece!fieldval)
+			f.Intrinsic.Control.EndIf
+		f.Intrinsic.Control.Next(v.Local.i)
+		
+	
+		'Map in Labour, determine whether to close the job
+		f.Intrinsic.Control.For(v.Local.i,0,v.DataTable.dtParts.RowCount--,1)
+			F.Intrinsic.Control.If(v.DataTable.dtTime(v.Local.i).CutTime!fieldval,>,0)
+				f.Intrinsic.Math.Add(V.DataTable.dtTime(v.Local.i).GoodPiece!fieldval,v.DataTable.dtTime(v.Local.i).UnitsComplete!fieldval,v.Local.fTtlP)
+				f.Intrinsic.Math.Add(V.DataTable.dtTime(v.Local.i).GoodPiece!fieldval,v.DataTable.dtTime(v.Local.i).BadPiece!fieldval,v.Local.fGoodBad)
+				
+				f.Intrinsic.Control.If(v.Local.fTtlP,>=,v.DataTable.dtTime(v.Local.i).UnitsOpen!fieldval)
+					v.Local.sClsd.Set("Y")
+				f.Intrinsic.Control.Else
+					v.Local.sClsd.Set("N")
+				f.Intrinsic.Control.EndIf
+		
+				f.Intrinsic.Math.Mult(V.DataTable.dtTime(v.Local.i).GoodPiece!fieldval,10000,v.Local.fGood)
+				f.Intrinsic.Math.Mult(V.DataTable.dtTime(v.Local.i).BadPiece!fieldval,10000,v.Local.fBadP)
+		
+				v.Local.fHour.Set(V.DataTable.dtTime(v.Local.i).CutTime!fieldval)
+				f.Intrinsic.Math.Mult(v.Local.fhour,v.Local.fGoodBad,v.Local.fhour)
+				f.Intrinsic.Math.Div(v.Local.fhour,60,v.Local.fHour)
+				f.Intrinsic.Math.Div(v.Local.fhour,60,v.Local.fHour)
+				f.Data.Datatable.SetValue("dtTime",v.Local.i,"Hours",v.Local.fHour,"Closed",v.Local.sClsd)
+				f.Intrinsic.Control.CallSub(TimeFormat,"Hours",v.Local.fHour)
+				f.Intrinsic.Variable.ArgToVar("BeginTime",v.Local.sSTme)
+				f.Intrinsic.Variable.ArgToVar("EndTime",v.Local.sETme)
+				f.Data.DataTable.AddRow("JB0455","Date",v.Local.sDate,"Employee",V.Local.sEmpl,"Job",v.DataTable.dtTime(v.Local.i).JOB!FIELDVALTRIM,"Suffix",v.DataTable.dtTime(v.Local.i).SFX!FIELDVALTRIM,"Seq",v.DataTable.dtTime(v.Local.i).SEQ!FIELDVALTRIM,"WC",v.DataTable.dtTime(v.Local.i).WC!FIELDVALTRIM,"Closed",v.Local.sClsd,"Indirect","D","StartTime",v.Local.sSTme,"StopTime",v.Local.sETme,"RateType","R","GoodPcs",v.Local.fGood,"ScrapPcs",v.Local.fBadP)
+			f.Intrinsic.Control.EndIf
+			
+			f.Intrinsic.Control.If(v.DataTable.dtTime(v.Local.i).HoursEstimated!fieldval,<=,0)
+				f.Intrinsic.String.Concat("No hours estimated, nothing will be issued to job ",v.DataTable.dtTime(v.Local.i).JOB!fieldvaltrim,"-",v.DataTable.dtTime(v.Local.i).Suffix!fieldvaltrim,"' ",v.DataTable.dtTime(v.Local.i).Part!fieldvaltrim,v.Local.smsg)
+				F.Intrinsic.UI.Msgbox(v.Local.sMsg)
+			f.Intrinsic.Control.EndIf
+		f.Intrinsic.Control.Next(v.Local.i)
+
+		'Upload Labour
+		f.Intrinsic.Control.CallSub("JB0455Sync")
+		
+		
+		''NOW DO THE MATERIAL
+		'Get total weight of remnants
+		f.Intrinsic.Control.For(v.Local.i,0,v.DataTable.dtRem.RowCount--,1)	
+			'Get Remnant Area
+			F.Intrinsic.Math.Mult(v.DataTable.dtRem(v.Local.i).OFFCUT_LENGTH!FIELDVAL,v.DataTable.dtRem(v.Local.i).OFFCUT_WIDTH!FIELDVAL,v.Local.fRemArea)
+			
+			'Add it to the Total
+			F.Intrinsic.Math.Add(V.Local.fTotalRemArea,V.Local.fRemArea,V.Local.fTotalRemArea)
+		f.Intrinsic.Control.Next(v.Local.i)
+			
+		'Get bottom half of equation for all parts
+		F.Intrinsic.control.For(V.local.i,0,v.DataTable.dtParts.RowCount--,1)
+			f.Intrinsic.Math.mult(v.DataTable.dtParts(v.Local.i).PartLength!FIELDVAL,v.DataTable.dtParts(v.Local.i).PartWidth!FIELDVAL,v.Local.fWOA)
+			f.Intrinsic.Math.Div(v.Local.fWOA,1000000,v.Local.fWOA)
+			f.Data.DataTable.SetValue("dtParts",v.Local.i,"PartSM",v.Local.fWOA)
+			v.Local.fWOQ.Set(v.datatable.dtParts(v.Local.i).RunQty!FIELDVAL)		
+			
+			'Multiply Work Order Area X Work Order Quantity
+			F.Intrinsic.Math.Mult(V.Local.fWOA,V.Local.fWOQ,V.Local.fCalcVal)
+			
+			'Add it to the Total
+			F.Intrinsic.Math.Add(V.Local.fFinal,V.Local.fCalcVal,V.Local.fFinal)
+		F.Intrinsic.Control.next(V.Local.i)
+		f.Intrinsic.Math.Div(v.Local.fTotalRemArea,1000000,v.Local.fTotalRemArea)
+		f.Intrinsic.Math.Div(v.Local.fTotalRemArea,v.Local.fFinal,v.Local.fRemPercent)
+		
+		'Total amount to divide by is now stored in v.local.fFinal  THIS IS IMPORTANT!
+		'Begin second loop now to do the calc
+		F.Intrinsic.Control.For(V.local.i,0,v.DataTable.dtParts.RowCount--,1)
+			'Calculate Work Order Area
+			f.Intrinsic.Math.mult(v.DataTable.dtParts(v.Local.i).PartLength!FIELDVAL,v.DataTable.dtParts(v.Local.i).PartWidth!FIELDVAL,v.Local.fWOA)
+			f.Intrinsic.Math.Div(v.Local.fWOA,1000,v.Local.fWOA)
+			v.Local.fWOQ.Set(v.datatable.dtParts(v.Local.i).RunQty!FIELDVAL)
+		
+			'Multiply Work Order Area X Work Order Quantity
+			F.Intrinsic.Math.Mult(V.Local.fWOA,V.Local.fWOQ,V.Local.fCalcVal)
+		
+			'Just Grab the sheet area, the value is there
+			f.Intrinsic.Math.mult(v.DataTable.dtParts(v.Local.i).SheetLength!FIELDVAL,v.DataTable.dtParts(v.Local.i).SheetWidth!FIELDVAL,v.Local.fSA)
+			f.Intrinsic.Math.div(v.Local.fSA,1000000,v.Local.fSA)
+			
+			'Get the sheet quantity, always 1
+			v.Local.fSQ.Set(1)
+			
+			'Multiply Sheet Area x Sheet Quantity
+			F.Intrinsic.Math.Mult(V.Local.fSA,V.Local.fSQ,V.Local.fSheet)
+		
+			'Multiply WO x Sheet, this is the TOP PORTION!
+			F.Intrinsic.Math.Mult(V.Local.fCalcVal,V.Local.fSheet,V.Local.fCalcVal)
+		
+			'Get the final VALUE!!!!
+			F.Intrinsic.Control.If(V.Local.fCalcVal,<>,0)
+			F.Intrinsic.Control.AndIf(V.Local.fSheet,<>,0)
+				F.Intrinsic.Math.Div(V.Local.fCalcVal,V.Local.fFinal,V.local.fm2Applied)
+			F.Intrinsic.Control.EndIf
+			f.data.datatable.setvalue("dtParts",v.local.i,"WOm2Applied",v.Local.fm2Applied)
+			
+			'Last step, get the percent ratio
+			f.Intrinsic.Math.Mult(v.Local.fSA,v.datatable.dtParts(V.Local.i).RunQty!FieldValFloat,v.local.fTotalSheetArea)
+			f.Intrinsic.Math.Div(v.datatable.dtParts(v.Local.i).WOm2Applied!FieldValFloat,v.local.fTotalSheetArea,v.Local.fPercentRatio)
+			F.Intrinsic.Math.Round(V.Local.fPercentRatio,2,V.Local.fPercentRatio)
+			f.Intrinsic.Math.Div(v.Local.fPercentRatio,1000,v.Local.fPercentRatio)
+			F.Intrinsic.Math.Mult(v.Local.fPercentRatio,v.datatable.dtParts(V.Local.i).RunQty!FieldValFloat,v.Local.fPercentRatio)
+			f.data.datatable.setvalue("dtParts",v.Local.i,"PercentRatio",v.Local.fPercentRatio,"SheetArea",v.Local.fsa)
+		F.Intrinsic.Control.Next(V.Local.i)
+		
+
+		'Set the timestamp BEFORE the loop occurs, this is critical!
+		F.Intrinsic.String.Format(v.Ambient.Now,"YYMMDD-HHNNSS",v.Local.sTimeStampLot)
+		v.Local.dAPSDate.Set(v.Ambient.Date)
+			
+		'Now write the file to issue the material
+		F.Intrinsic.Control.For(V.local.i,0,v.DataTable.dtParts.RowCount--,1)
+			V.Local.spart.Set(V.Screen.frmIssue!txtPart.TEXT)
+			V.Local.slot.Set(V.Screen.frmIssue!txtLot.TEXT)
+			V.Local.sbin.Set(V.Screen.frmIssue!txtBin.TEXT)
+			V.Local.sheat.Set(V.Screen.frmIssue!txtHeat.TEXT)
+			V.Local.sserial.Set(V.Screen.frmIssue!txtSerial.TEXT)
+
+			V.Local.fOnHand.Set(V.Screen.frmIssue!txtQty.TEXT)
+			V.Local.fQty.Set(v.DataTable.dtParts(v.Local.i).SheetArea!fieldval)
+			v.Local.sWC.Set(v.DataTable.dtParts(v.Local.i).Workcentre!Fieldvaltrim)
+			
+			v.Local.sWO.Set(v.DataTable.dtParts(v.Local.i).WorkOrder!FIELDVAL)
+			f.Intrinsic.String.Split(v.Local.sWO,"-",v.Local.sWO)
+			f.Intrinsic.Control.If(v.Local.swo.UBound,>,0)
+				v.Local.sJob.Set(v.Local.sWO(0))
+				v.Local.sSuffix.Set(v.Local.sWO(1))
+			f.Intrinsic.Control.Else
+				v.Local.sjob.Set(v.Local.sWO)
+				v.Local.sSuffix.Set("")
+			f.Intrinsic.Control.EndIf
+			
+			'Get the sequence
+			f.Intrinsic.String.Build("SELECT SEQ FROM JOB_OPERATIONS WHERE CODE_SORT_OPER='SHEET' AND JOB='{0}' AND SUFFIX='{1}'",v.Local.sjob,v.Local.ssuffix,v.Local.ssql)
+			f.ODBC.Connection!con.ExecuteAndReturn(v.Local.ssql,v.Local.sseq)
+			'v.Local.sseq.Set("000100")
+			v.Local.sLSeq.Set("000200")
+
+			
+			f.Intrinsic.Math.Mult(v.local.fQTY,v.datatable.dtParts(v.local.i).PercentRatio!FieldValFloat,v.Local.fqty)
+			F.Intrinsic.Math.Round(V.local.fqty,2,V.Local.fqty)
+			'If the qty is greater than the amount on hand, issue the amount on hand
+			f.Intrinsic.Math.Add(v.Local.fTotalIssue,v.Local.fqty,v.Local.fTotalIssue)
+			f.Intrinsic.Control.If(v.Local.fTotalIssue,>,v.Local.fonhand)
+				f.Intrinsic.Math.Sub(v.Local.fTotalIssue,v.Local.fonhand,v.Local.fResult)
+				f.Intrinsic.Math.Sub(v.Local.fqty,v.Local.fresult,v.Local.fqty)
+				f.Intrinsic.Math.ConvertToLong(v.Local.fqty,v.Local.fqty)
+				'Still a rounding issue, fluff it to make it go through.
+				f.Intrinsic.Control.If(v.Local.fqty,<>,0)
+					f.Intrinsic.Math.Sub(v.Local.fqty,1,v.Local.fqty)
+				f.Intrinsic.Control.EndIf
+				f.Intrinsic.Math.Round(v.Local.fqty,0,v.Local.fqty)
+			f.Intrinsic.Control.EndIf
+			
+			F.Intrinsic.String.Format(V.Local.fqty,"####.0000",V.local.Sqty)
+			F.Intrinsic.String.Replace(V.Local.sqty,".","",V.Local.sqty)
+		
+			V.local.sloc.set("")
+			V.Local.srev.Set("")
+			F.Intrinsic.String.Build("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}",V.Local.spart.Trim,V.Local.srev.Trim,V.Local.sloc.Trim,V.Local.sqty.Trim,V.Local.slot.Trim,V.Local.sbin.Trim,V.Local.sheat.Trim,V.Local.sserial.Trim,V.Local.sjob.Trim,V.Local.ssuffix.Trim,V.Local.sseq.Trim,V.Local.sline)
+			F.intrinsic.string.build("UPDATE JOB_OPERATIONS SET FLAG_CLOSED='Y' WHERE JOB='{0}' AND SUFFIX='{1}' AND SEQ='{2}'",V.local.sjob.Trim,V.local.ssuffix.Trim,V.local.sseq.Trim,V.local.ssql)
+			f.Intrinsic.String.Concat(v.Local.sSQLStatements,V.Local.sSQL,v.Ambient.NewLine,v.Local.ssqlstatements)
+			''LABOUR STUFF ADDITIONS START HERE
+			'Get Total units for the operation
+			F.Intrinsic.String.Format(v.Ambient.Date,"YYMMDD",v.Local.sDateClose)
+			F.Intrinsic.String.Build("SELECT UNITS_OPEN FROM V_JOB_OPERATIONS WHERE JOB='{0}' AND SUFFIX='{1}' AND SEQ='{2}'",v.Local.sJob,v.Local.ssuffix,V.Local.sLSeq,v.Local.ssql)
+			f.odbc.Connection!con.executeandreturn(v.Local.ssql,v.Local.fTotalUnits)
+			'Get Units that have been completed already
+			F.Intrinsic.String.Build("SELECT UNITS_COMPLETE FROM V_JOB_OPERATIONS WHERE JOB='{0}' AND SUFFIX='{1}' AND SEQ='{2}'",v.Local.sJob,v.Local.ssuffix,V.Local.sLSeq,v.Local.ssql)
+			f.odbc.Connection!con.executeandreturn(v.Local.ssql,v.Local.fUnitsComplete)
+			'Add what this nest is completing on top of it and update it
+			f.Intrinsic.Math.Add(v.Local.fUnitsComplete,v.DataTable.dtParts(v.Local.i).RunQty!Fieldvalfloat,v.Local.fUnitsComplete)
+			F.intrinsic.string.build("UPDATE JOB_OPERATIONS SET UNITS_COMPLETE={0} WHERE JOB='{1}' AND SUFFIX='{2}' AND SEQ='{3}'",v.Local.fUnitsComplete,V.local.sjob.Trim,V.local.ssuffix.Trim,V.local.sLSEQ.Trim,V.local.ssql)
+			f.ODBC.Connection!con.execute(v.Local.ssql)
+			'If Units Completed >= Total Units, then close
+			f.Intrinsic.Control.If(v.Local.fUnitsComplete,>=,v.Local.fTotalUnits)
+				F.intrinsic.string.build("UPDATE JOB_OPERATIONS SET FLAG_CLOSED='Y',DATE_COMPLETED='{3}' WHERE JOB='{0}' AND SUFFIX='{1}' AND SEQ='{2}'",V.local.sjob.Trim,V.local.ssuffix.Trim,V.local.sLSEQ.Trim,v.Local.sDateClose,V.local.ssql)
+				f.ODBC.Connection!con.execute(v.Local.ssql)
+				'Added in 6th August, 2018
+				F.Intrinsic.String.Build("UPDATE APSV3_JBLINES SET ComplDate='{3}' WHERE JOB='{0}' AND SFX='{1}' AND SEQ='{2}'",v.Local.sjob.Trim,v.Local.ssuffix.Trim,V.local.sLSEQ.Trim,V.local.dAPSDate.PervasiveDate,V.Local.SSQL)
+				F.ODBC.Connection!CON.Execute(V.Local.ssql)
+			f.Intrinsic.Control.EndIf
+			v.Local.funitscomplete.Set(0)
+			''LABOUR STUFF ADDITIONS END HERE
+			
+			F.Intrinsic.String.Concat(V.Local.sLines,V.Local.sline,V.Ambient.NewLine,V.Local.sLines)
+				
+			'Calculate Remnants
+			F.Intrinsic.Control.For(V.local.j,0,v.DataTable.dtRem.RowCount--,1)
+				'Need to divide up the remain one more time
+		'		F.Intrinsic.Math.Mult(v.DataTable.dtRem(v.Local.j).RemLength!FIELDVAL,v.DataTable.dtRem(v.Local.j).RemWidth!FIELDVAL,v.Local.fRemArea)
+		'		f.Intrinsic.Math.Div(v.Local.fRemArea,1000000,v.Local.fRemArea)
+		'		f.Intrinsic.Math.div(v.Local.fRemArea,v.Local.fTotalRemArea,v.Local.fRemain)
+		'		f.Intrinsic.Math.Mult(v.Local.fRemPercent,v.Local.fRemain,v.Local.fRemain)
+				f.Intrinsic.Math.Mult(v.datatable.dtParts(v.Local.i).PercentRatio!FieldValFloat,v.DataTable.dtRem(v.Local.j).OFFCUT_SM!FieldValFloat,v.local.fdropqty)
+				F.Intrinsic.Math.Mult(V.Local.fdropqty,-1,V.Local.fdropqty)
+				F.Intrinsic.Math.Round(V.Local.fdropqty,2,V.Local.fdropqty)
+				F.Intrinsic.String.Format(V.Local.fdropqty,"####.0000",V.local.sdropqty)
+				F.Intrinsic.String.Replace(V.Local.sdropqty,".","",V.Local.sdropqty)
+				F.Intrinsic.String.Split(V.Local.SPART,"+",V.Local.sBasePart)
+				f.Intrinsic.String.Concat(v.Local.sbasepart(0),"+Z",v.Local.sdroppart)
+				f.Intrinsic.String.Concat(v.Local.sTimeStampLot,v.Local.j,v.Local.sTimeStampLotFinal)
+				v.Local.sdroplot.Set(v.DataTable.dtRem(v.Local.j).OFFCUT_NAME!FieldVal)
+				'F.Intrinsic.String.Concat(v.Local.slot,v.Local.j,v.Local.sdroplot)
+				f.Data.DataTable.SetValue("dtRem",v.Local.j,"DropPart",v.Local.sdroppart)
+				f.Data.DataTable.SetValue("dtRem",v.Local.j,"DropLot",v.Local.sdroplot)
+				f.Data.DataTable.SetValue("dtRem",v.Local.j,"DropHeat",v.Local.sheat)
+				f.Data.DataTable.SetValue("dtRem",v.Local.j,"DropSeri",v.Local.sserial)
+				F.Intrinsic.String.Build("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}",V.Local.sdroppart.Trim,V.Local.srev.Trim,V.Local.sloc.Trim,V.Local.sdropqty.Trim,V.Local.sdroplot.Trim,v.DataTable.dtRem(v.Local.j).BIN!FIELDVAL,V.Local.sheat.Trim,V.Local.sserial.Trim,V.Local.sjob.Trim,V.Local.ssuffix.Trim,V.Local.sseq.Trim,V.Local.sline)
+				F.Intrinsic.String.Concat(V.Local.sLines,V.Local.sline,V.Ambient.NewLine,V.Local.sLines)
+			f.Intrinsic.Control.Next(v.Local.j)
+		f.Intrinsic.Control.Next(v.Local.i)
+		F.Intrinsic.UI.ChangeWaitStatus("Issuing Material and Drops",60)
+		V.Local.sfile.Declare(String)
+		F.Intrinsic.String.Build("L{0}{1}WOTXT",V.Caller.CompanyCode,V.Caller.Terminal,V.Local.sFile)
+		F.Intrinsic.String.Concat(V.Caller.FilesDir,"\",V.Local.sfile,V.Local.sfile)
+		F.Intrinsic.File.String2File(V.Local.sfile,V.Local.slines)
+		'Function.Intrinsic.File.CopyFile(FullyQualifiedPathSource,FullyQualifiedPathTarget)
+		V.Local.sbackupfile.Declare(String)
+		v.local.sTimeStamp.Declare(string)
+		f.Intrinsic.String.Format(v.Ambient.Now,"YYYYMMDD HHNNSS",V.Local.sTimeStamp)
+		F.Intrinsic.String.Build("L{1}{2}{3}WOTXT.BKP",V.Ambient.DblQuote,V.Caller.CompanyCode,V.Caller.Terminal,V.Local.sTimeStamp,V.Local.sBackupFile)
+		F.Intrinsic.String.Concat(V.Caller.FilesDir,"\",V.Local.sBackupFile,V.Local.sBackupfile)
+		
+		'Copy the file
+		F.Intrinsic.File.CopyFile(V.Local.sfile,V.Local.sBackupFile)
+		
+		F.Intrinsic.String.Build("L{0}{1}WOTXT",V.Caller.CompanyCode,V.Caller.Terminal,V.Local.sFile)
+		
+		'F.Intrinsic.Task.LaunchGSSSync("WIR100","-C",V.Local.sFile)
+		f.Global.General.CallWrapperSync(450100,v.Local.sfile)
+'		'Update Length, Width, Remnant ID
+'		F.Intrinsic.Control.For(v.Local.j,0,v.DataTable.dtRem.RowCount--,1)
+'			V.Local.ssql.Set("UPDATE ITEM_MASTER SET USER_FIELD_4='{0}', USER_FIELD_1='{1}', USER_FIELD_2='{2}' WHERE PART='{3}' AND BIN='{4}' AND HEAT='{5}' AND SERIAL_NUMBER='{6}' AND LOT='{7}'")
+'			F.Intrinsic.String.Build(V.Local.ssql,v.DataTable.dtRem(v.Local.j).RemID!FIELDVAL,v.DataTable.dtRem(v.Local.j).RemWidth!FIELDVAL,v.DataTable.dtRem(v.Local.j).RemLength!FIELDVAL,v.DataTable.dtRem(v.Local.j).DropPart!FIELDVAL,v.DataTable.dtRem(v.Local.j).BIN!FIELDVAL,v.DataTable.dtRem(v.Local.j).DropHeat!FIELDVAL,v.DataTable.dtRem(v.Local.j).DropSeri!FIELDVAL,v.DataTable.dtRem(v.Local.j).DropLot!FIELDVAL,V.Local.ssql)
+'			F.ODBC.Connection!con.Execute(V.Local.ssql)
+'		f.Intrinsic.Control.Next(v.Local.j)
+	
+	
+'		f.Intrinsic.String.Split(v.Local.sSQLStatements,v.Ambient.NewLine,v.Local.sSQLStatements)
+'		f.Intrinsic.Control.For(v.Local.k,0,v.Local.sSQLStatements.UBound,1)
+'			f.Intrinsic.Control.If(v.Local.sSQLStatements.trim,<>,"")
+'				f.Intrinsic.Control.Try
+'					f.ODBC.Connection!con.execute(v.Local.sSQLStatements(v.Local.k))
+'				f.Intrinsic.Control.Catch
+'				f.Intrinsic.Control.EndTry
+'			f.Intrinsic.Control.EndIf
+'		f.Intrinsic.Control.Next(v.Local.k)
+
+
+
+
+
+		f.ODBC.Connection!con.Close
+		f.Intrinsic.Control.End
+	f.Intrinsic.Control.EndIf
+f.Intrinsic.Control.Catch
+	f.Intrinsic.UI.Msgbox(v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(frmIssue_Unload)
+f.Intrinsic.Control.EndTry
+Program.Sub.cmdProcess_Click.End
+
+Program.Sub.checkScrap.Start
+f.Intrinsic.Control.Try
+	F.Intrinsic.UI.InvokeWaitDialog("Checking for Scrap.")
+	v.Local.ssql.Declare(string)
+	v.Local.sret.Declare(string)
+	V.Local.i.Declare(long)
+	v.Local.sJob.Declare(string)
+	v.Local.sSuffix.Declare(string)
+	v.Local.sLSEQ.Declare(string)
+	V.Local.sWC.Declare(string)
+	v.Local.fScrap.Declare(float)
+	v.Local.sMessage.Declare(string)
+	V.Local.sWO.Declare(String)
+	
+	f.Intrinsic.Control.For(v.Local.i,0,v.DataTable.dtParts.RowCount--,1)
+		'Get the proper WC
+		f.Intrinsic.String.Split(v.DataTable.dtParts(v.Local.i).WorkOrder!FIELDVAL,"-",V.Local.sWO)
+		f.Intrinsic.Control.If(v.Local.sWO.UBound,>,0)
+			v.Local.sJob.Set(v.Local.sWO(0))
+			v.Local.sSuffix.Set(v.Local.sWO(1))
+		f.Intrinsic.Control.Else
+			v.Local.sJob.Set(v.Local.sWO)
+			v.Local.sSuffix.Set("")
+		f.Intrinsic.Control.EndIf
+		
+		'Get length & width of sheet
+		f.Intrinsic.String.Build("SELECT LENGTH, WIDTH FROM V_INVENTORY_ALL WHERE PART='{0}'",v.DataTable.dtParts(v.Local.i).GSSMaterial!fieldvaltrim,v.Local.ssql)
+		f.ODBC.Connection!con.executeandreturn(v.Local.ssql,v.Local.sret)
+		f.Intrinsic.String.Split(v.Local.sret,"*!*",v.Local.sret)
+		f.Data.DataTable.SetValue("dtParts",v.Local.i,"SheetLength",v.Local.sret(0),"SheetWidth",v.Local.sret(1))
+		
+		f.Intrinsic.String.Build("SELECT OPERATION FROM V_JOB_OPERATIONS WHERE JOB='{0}' AND SUFFIX='{1}' AND SEQ='{2}'",V.Local.sJob,V.Local.sSuffix,"000200",V.Local.SSQL)
+		F.ODBC.Connection!CON.executeandreturn(v.Local.ssql,v.Local.sWc)
+		f.Data.DataTable.SetValue("dtParts",v.Local.i,"Workcentre",v.Local.sWC)
+		
+		f.Intrinsic.String.Build("SELECT UNITS_SCRAP FROM V_JOB_OPERATIONS WHERE JOB='{0}' AND SUFFIX='{1}' AND SEQ='{2}'",v.Local.sJob,v.Local.sSuffix,"000200",v.Local.ssql)
+		f.ODBC.Connection!con.executeandreturn(v.Local.ssql,v.Local.fScrap)
+		
+		f.Intrinsic.Control.If(v.Local.fScrap,>,0)
+			f.Intrinsic.String.Concat(v.Local.sMessage,"Work Order ",v.DataTable.dtParts(v.Local.i).WORKORDER!FieldVal," has ",v.Local.fScrap," scrap parts.",v.Ambient.NewLine, v.Local.sMessage)
+		f.Intrinsic.Control.EndIf
+	f.Intrinsic.Control.Next(v.Local.i)
+	
+	f.Intrinsic.Control.If(v.Local.sMessage.Trim,<>,"")
+		f.Intrinsic.UI.Msgbox(v.Local.sMessage)
+	f.Intrinsic.Control.EndIf
+	f.Intrinsic.UI.CloseWaitDialog
+f.Intrinsic.Control.Catch
+	f.Intrinsic.UI.Msgbox(v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(frmIssue_Unload)
+f.Intrinsic.Control.EndTry
+Program.Sub.checkScrap.End
+
+Program.Sub.cmdBrowseMat_Click.Start
+F.Intrinsic.Control.Try
+	V.Local.sSQL.Declare(String)
+	V.Local.sCol.Declare(String)
+	V.Local.sColW.Declare(String)
+	V.Local.sRet.Declare(String)
+	V.Local.sSQL.set("SELECT PART, LOT, BIN, HEAT, SERIAL_NUMBER, QUANTITY FROM V_ITEM_MASTER ")
+	'Split Column Names into an array (*!* delimited string)
+	F.Intrinsic.String.Split("Part*!*Lot*!*Bin*!*Heat*!*Serial*!*Quantity","*!*",V.Local.sCol)
+	'Split Column widths into an array (*!* delimited string)
+	F.Intrinsic.String.Split("2000*!*600*!*600*!*800*!*800*!*500","*!*",V.Local.sColW)
+	F.Intrinsic.UI.Browser("Select a Lot/Bin Record","con",V.Local.sSQL,V.Local.sCol,V.Local.sColW,V.Local.sRet)
+	F.Intrinsic.Control.If(V.Local.sRet,<>,"***CANCEL***")
+		f.Intrinsic.String.Split(v.Local.sRet,"*!*",v.Local.sRet)
+		gui.frmIssue.txtPart.Text(v.Local.sRet(0))
+		gui.frmIssue.txtLot.Text(v.Local.sRet(1))
+		gui.frmIssue.txtBin.Text(v.Local.sRet(2))
+		gui.frmIssue.txtHeat.Text(v.Local.sRet(3))
+		gui.frmIssue.txtSerial.Text(v.Local.sRet(4))
+		gui.frmIssue.txtQty.Text(v.Local.sRet(5))
+	F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.Catch
+	f.Intrinsic.UI.Msgbox(v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(frmIssue_Unload)
+F.Intrinsic.Control.EndTry
+Program.Sub.cmdBrowseMat_Click.End
+
+Program.Sub.TimeFormat.Start
+f.Intrinsic.Control.Try
+	v.Local.fInput.Declare
+	v.Local.sVals.Declare
+	v.Local.iHour.Declare
+	v.Local.iMinute.Declare
+	v.Local.fMinuteDec.Declare
+	v.Local.dBeginTime.Declare
+	v.Local.dEndTime.Declare
+	v.Local.sBeginTime.Declare
+	v.Local.sEndTime.Declare
+	v.Local.sStampHour.Declare
+	v.Local.sStampDay.Declare
+	v.Local.dBeginTime.Set(v.Ambient.Now)
+	
+	v.Local.fInput.Set(v.Args.Hours)
+	
+	'gET LEFT OF DECIMAL
+	f.Intrinsic.String.Split(v.Local.fInput,".",v.Local.sVals)
+	v.Local.iHour.Set(v.Local.sVals(0))
+	f.Intrinsic.String.Concat(".",v.Local.sVals(1),v.Local.fMinuteDec)
+	
+	f.Intrinsic.Date.DateAdd("H",v.Local.iHour,v.Local.dBeginTime,v.Local.dEndTime)
+	f.Intrinsic.Math.Mult(v.Local.fMinuteDec,60,v.Local.iMinute)
+	f.Intrinsic.Date.DateAdd("N",v.Local.iMinute,v.Local.dEndTime,v.Local.dEndTime)	
+	
+	f.Intrinsic.String.Format(v.Local.dBeginTime,"HHMM",v.Local.sBeginTime)
+	f.Intrinsic.String.Format(v.Local.dEndTime,"HHMM",v.Local.sEndTime)
+	
+	f.Intrinsic.Variable.AddRV("BeginTime",v.Local.sBeginTime)
+	f.Intrinsic.Variable.AddRV("EndTime",v.Local.sEndTime)
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.UI.Msgbox(v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(frmNest_UnLoad)
+f.Intrinsic.Control.EndTry
+Program.Sub.TimeFormat.End
+
+Program.Sub.frmIssue_UnLoad.Start
+f.ODBC.Connection!con.Close
+f.Intrinsic.Control.End
+Program.Sub.frmIssue_UnLoad.End
+
+Program.Sub.Comments.Start
+${$5$}$20.1.8256.24238$}$1
+${$6$}$pressing$}$20221009073410285$}$PSy2e0mDO0X+b595c+kxeCVdGd7JAo+m2NyvXf4Xbfb53DBvErEFHsmFmwVDpwj5/mgC0wJZcIr0D28M+aj9zA==
+Program.Sub.Comments.End
