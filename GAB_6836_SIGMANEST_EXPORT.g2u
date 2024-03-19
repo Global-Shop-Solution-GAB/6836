@@ -1,0 +1,277 @@
+﻿Program.Sub.ScreenSU.Start
+Gui.frmJobExport..Create(DashForm)
+Gui.frmJobExport..Caption("Job Export")
+Gui.frmJobExport..Size(1024,720)
+Gui.frmJobExport..MinX(0)
+Gui.frmJobExport..MinY(0)
+Gui.frmJobExport..Position(0,0)
+Gui.frmJobExport..AlwaysOnTop(False)
+Gui.frmJobExport..FontName("Tahoma")
+Gui.frmJobExport..FontSize(8.25)
+Gui.frmJobExport..ControlBox(True)
+Gui.frmJobExport..MaxButton(True)
+Gui.frmJobExport..MinButton(True)
+Gui.frmJobExport..MousePointer(0)
+Gui.frmJobExport..Moveable(True)
+Gui.frmJobExport..Sizeable(True)
+Gui.frmJobExport..ShowInTaskBar(True)
+Gui.frmJobExport..TitleBar(True)
+Gui.frmJobExport..BarExportButton(True)
+Gui.frmJobExport..BarRefreshButton(True)
+Gui.frmJobExport..Event(UnLoad,frmJobExport_UnLoad)
+Gui.frmJobExport..Event(RefreshClick,frmJobExport_RefreshClick)
+Gui.frmJobExport..Event(ExportClick,frmJobExport_ExportClick)
+Gui.frmJobExport.gsgcJobs.Create(GsGridControl)
+Gui.frmJobExport.gsgcJobs.Enabled(True)
+Gui.frmJobExport.gsgcJobs.Visible(True)
+Gui.frmJobExport.gsgcJobs.Zorder(0)
+Gui.frmJobExport.gsgcJobs.Size(1024,654)
+Gui.frmJobExport.gsgcJobs.Position(0,0)
+Gui.frmJobExport.gsgcJobs.Dock(5)
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+F.Intrinsic.Control.Try
+	F.Intrinsic.UI.UsePixels ' Allows you to use Pixels instead of Twips throughout
+	F.ODBC.Connection!CON.OPENCOMPANYCONNECTION(60)
+	f.Intrinsic.Control.CallSub(LoadData)
+	f.Intrinsic.Control.CallSub(SetProperties)
+	Gui.frmJobExport..Show
+F.Intrinsic.Control.Catch
+	F.Intrinsic.UI.Msgbox(V.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(frmJobExport_UnLoad)
+F.Intrinsic.Control.EndTry
+Program.Sub.Main.End
+
+Program.Sub.loadData.Start
+f.Intrinsic.Control.Try
+	v.Local.sSql.Declare
+	v.Local.sSql.Set("select CAST(0 AS BIT) AS 'SelectJob', A.JOB, B.SALES_ORDER, B.SALES_ORDER_LINE, A.SUFFIX, A.SEQ, A.DESCRIPTION, RTRIM(A.PART) AS 'WC', b.priority, (SELECT rtrim(Y.TEXT_INFO2) FROM V_JOB_OPERATIONS X INNER JOIN V_INVENTORY_ALL Y ON X.PART=Y.PART WHERE X.JOB=A.JOB AND X.SUFFIX=A.SUFFIX AND X.CODE_SORT_OPER='SHEET') AS 'Material', (SELECT Y.thickness FROM V_JOB_OPERATIONS X INNER JOIN V_INVENTORY_ALL Y ON X.PART=Y.PART WHERE X.JOB=A.JOB AND X.SUFFIX=A.SUFFIX AND X.CODE_SORT_OPER='SHEET') AS 'Thickness', (SELECT x.part FROM V_JOB_OPERATIONS X WHERE X.JOB=A.JOB AND X.SUFFIX=A.SUFFIX AND X.CODE_SORT_OPER='SHEET') AS 'MaterialCode', E.PATH, E.FILE, A.DATE_DUE, B.CUSTOMER, B.PART, B.PART_DESCRIPTION, B.QTY_ORDER, C.NAME_CUSTOMER from V_JOB_OPERATIONS A LEFT JOIN JOB_HEADER B ON A.JOB=B.JOB AND A.SUFFIX=B.SUFFIX LEFT JOIN V_CUSTOMER_MASTER C ON B.CUSTOMER = C.CUSTOMER LEFT JOIN V_LINK_DATA D ON D.ID = B.PART LEFT JOIN ATG_DOC_ASSOC E ON E.LINK_ID=D.LINK_ID_INT WHERE A.LMO='L' AND A.PART='PCUT'")
+	f.Intrinsic.Control.If(v.DataTable.dtJobs.Exists)
+		f.Data.DataTable.DeleteRow("dtJobs")
+		f.Data.DataTable.CreateFromSQL("dtJobsTemp","con",v.Local.sSql,true)
+		f.Data.DataTable.Merge("dtJobsTemp","dtJobs",true,1)
+		f.Data.DataTable.Close("dtJobsTemp")
+	f.Intrinsic.Control.Else
+		f.Data.DataTable.CreateFromSQL("dtJobs","con",v.Local.sSql,true)
+		gui.frmJobExport.gsgcJobs.DataSource("dtJobs")
+	f.Intrinsic.Control.EndIf
+f.Intrinsic.Control.Catch
+	f.Intrinsic.UI.Msgbox(v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(frmJobExport_UnLoad)
+f.Intrinsic.Control.EndTry
+Program.Sub.loadData.End
+
+Program.Sub.setProperties.Start
+f.Intrinsic.Control.Try
+
+	Gui.frmJobExport.gsgcJobs.AddGridviewFromDatatable("gvJobs","dtJobs")
+	Gui.frmJobExport.gsgcJobs.SetGridViewProperty("gvJobs","OptionsViewShowGroupPanel",True)
+	
+	gui.frmJobExport.gsgcJobs.SetGridViewProperty("gvJobs","MultiSelect",True)
+	gui.frmJobExport.gsgcJobs.Setgridviewproperty("gvJobs","multiselectmode",2)
+	gui.frmJobExport.gsgcJobs.Setgridviewproperty("gvJobs","CheckBoxSelectorField","SelectJob")
+
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SelectJob","Visible",False)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SEQ","Visible",False)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","Suffix","Visible",False)
+	
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","JOB","AllowEdit", False)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","JOB","HeaderHAlignment","Center")
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","JOB","ReadOnly", True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","JOB","MinWidth","80")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","JOB","HeaderFontBold",True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","JOB","Caption","Job")
+	
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SALES_ORDER","AllowEdit", False)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SALES_ORDER","HeaderHAlignment","Center")
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SALES_ORDER","ReadOnly", True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SALES_ORDER","MinWidth","80")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SALES_ORDER","HeaderFontBold",True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SALES_ORDER","Caption","Sales Order")
+	
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SALES_ORDER_LINE","AllowEdit", False)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SALES_ORDER_LINE","HeaderHAlignment","Center")
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SALES_ORDER_LINE","ReadOnly", True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SALES_ORDER_LINE","MinWidth","80")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SALES_ORDER_LINE","HeaderFontBold",True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SALES_ORDER_LINE","Caption","SO Line")
+	
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SUFFIX","AllowEdit", False)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SUFFIX","HeaderHAlignment","Center")
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SUFFIX","ReadOnly", True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SUFFIX","MinWidth","30")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SUFFIX","Caption","Suffix")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SUFFIX","HeaderFontBold",True)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SEQ","AllowEdit", False)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SEQ","HeaderHAlignment","Center")
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SEQ","ReadOnly", True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SEQ","MinWidth","80")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SEQ","Caption","Seq")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","SEQ","HeaderFontBold",True)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","Description","AllowEdit", False)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","Description","HeaderHAlignment","Center")
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","Description","ReadOnly", True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","Description","MinWidth","150")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","Description","Caption","Lab Description")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","Description","HeaderFontBold",True)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","WC","AllowEdit", False)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","WC","HeaderHAlignment","Center")
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","WC","ReadOnly", True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","WC","MinWidth","30")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","WC","Caption","WC")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","WC","HeaderFontBold",True)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PRIORITY","AllowEdit", False)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PRIORITY","HeaderHAlignment","Center")
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PRIORITY","ReadOnly", True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PRIORITY","MinWidth","30")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PRIORITY","Caption","Priority")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PRIORITY","HeaderFontBold",True)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","Material","AllowEdit", False)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","Material","HeaderHAlignment","Center")
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","Material","ReadOnly", True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","Material","MinWidth","80")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","Material","Caption","Material")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","Material","HeaderFontBold",True)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","Thickness","AllowEdit", False)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","Thickness","HeaderHAlignment","Center")
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","Thickness","ReadOnly", True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","Thickness","MinWidth","80")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","Thickness","Caption","Thickness")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","Thickness","HeaderFontBold",True)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","MaterialCode","AllowEdit", true)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","MaterialCode","HeaderHAlignment","Center")
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","MaterialCode","ReadOnly", True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","MaterialCode","MinWidth","80")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","MaterialCode","Caption","GSS Material")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","MaterialCode","HeaderFontBold",True)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PATH","AllowEdit", False)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PATH","HeaderHAlignment","Center")
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PATH","ReadOnly", True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PATH","MinWidth","80")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PATH","Caption","File Path")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PATH","HeaderFontBold",True)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","FILE","AllowEdit", False)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","FILE","HeaderHAlignment","Center")
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","FILE","ReadOnly", True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","FILE","MinWidth","80")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","FILE","Caption","File Name")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","FILE","HeaderFontBold",True)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","DATE_DUE","AllowEdit", False)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","DATE_DUE","HeaderHAlignment","Center")
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","DATE_DUE","ReadOnly", True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","DATE_DUE","MinWidth","80")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","DATE_DUE","Caption","Date Due")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","DATE_DUE","HeaderFontBold",True)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","DATE_DUE","DisplayCustomDatetime","d")
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","CUSTOMER","AllowEdit", False)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","CUSTOMER","HeaderHAlignment","Center")
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","CUSTOMER","ReadOnly", True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","CUSTOMER","MinWidth","80")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","CUSTOMER","Caption","Cust#")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","CUSTOMER","HeaderFontBold",True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","CUSTOMER","Visible",False)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PART","AllowEdit", False)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PART","HeaderHAlignment","Center")
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PART","ReadOnly", True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PART","MinWidth","150")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PART","Caption","Seq")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PART","HeaderFontBold",True)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PART_DESCRIPTION","AllowEdit", False)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PART_DESCRIPTION","HeaderHAlignment","Center")
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PART_DESCRIPTION","ReadOnly", True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PART_DESCRIPTION","MinWidth","200")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PART_DESCRIPTION","Caption","Part Description")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","PART_DESCRIPTION","HeaderFontBold",True)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","QTY_ORDER","AllowEdit", False)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","QTY_ORDER","HeaderHAlignment","Center")
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","QTY_ORDER","ReadOnly", True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","QTY_ORDER","MinWidth","200")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","QTY_ORDER","Caption","Qty")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","QTY_ORDER","HeaderFontBold",True)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","NAME_CUSTOMER","AllowEdit", False)
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","NAME_CUSTOMER","HeaderHAlignment","Center")
+	gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","NAME_CUSTOMER","ReadOnly", True)
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","NAME_CUSTOMER","MinWidth","150")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","NAME_CUSTOMER","Caption","Customer Name")
+	Gui.frmJobExport.gsgcJobs.SetColumnProperty("gvJobs","NAME_CUSTOMER","HeaderFontBold",True)
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.UI.Msgbox(v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(frmJobExport_UnLoad)
+f.Intrinsic.Control.EndTry
+Program.Sub.setProperties.End
+
+Program.Sub.frmJobExport_UnLoad.Start
+F.ODBC.Connection!CON.Close
+F.Intrinsic.Control.End
+Program.Sub.frmJobExport_UnLoad.End
+
+Program.Sub.frmJobExport_RefreshClick.Start
+f.Intrinsic.Control.Try
+
+f.Intrinsic.Control.Catch
+	f.Intrinsic.UI.Msgbox(v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(frmJobExport_UnLoad)
+f.Intrinsic.Control.EndTry
+Program.Sub.frmJobExport_RefreshClick.End
+
+Program.Sub.frmJobExport_ExportClick.Start
+f.Intrinsic.Control.Try
+	v.Local.i.Declare
+	V.Local.dDueDate.Declare
+	v.Local.iQty.Declare
+	v.Local.sFile.Declare
+	v.Local.sMasterRows.Declare
+	v.Local.sRow.Declare
+	v.Local.sTimeStamp.Declare
+	v.Local.sDueDate.Declare
+	
+	f.Intrinsic.String.Format(v.Ambient.Now,"YYYYMMDD HHNNSS",v.Local.sTimeStamp)
+	
+	f.Intrinsic.Control.For(v.Local.i,0,v.DataTable.dtJobs.RowCount--,1)
+		f.Intrinsic.Control.If(v.DataTable.dtJobs(v.Local.i).SelectJob!fieldval)
+			'Work Order
+			f.Intrinsic.String.Concat("SET,WONO,",v.DataTable.dtJobs(v.Local.i).JOB!fieldvaltrim,v.Local.sRow)
+			f.Intrinsic.String.Concat(v.Local.sMasterRows,v.Local.sRow,v.Local.sMasterRows)
+			
+			'Customer Name
+			f.Intrinsic.String.Concat("SET,CUSTOMER,",v.DataTable.dtJobs(v.Local.i).NAME_CUSTOMER!fieldvaltrim,v.Local.sRow)
+			f.Intrinsic.String.Concat(v.Local.sMasterRows,v.Ambient.NewLine,v.Local.sRow,v.Local.sMasterRows)
+			
+			'Set Date
+			v.Local.dDueDate.Set(v.DataTable.dtJobs(v.Local.i).DATE_DUE!fieldval)
+			f.Intrinsic.String.Format(v.Local.dDueDate,"YYYY/MM/DD",v.Local.sDueDate)
+			f.Intrinsic.String.Concat("SET,DATE,",v.Local.sDueDate,v.Local.sRow)
+			f.Intrinsic.String.Concat(v.Local.sMasterRows,v.Ambient.NewLine,v.Local.sRow,v.Local.sMasterRows)
+			
+			'Set DXF Path
+			f.Intrinsic.String.Concat("SET,DXFPATH,",v.DataTable.dtJobs(v.Local.i).PATH!FIELDVALTRIM,v.Local.sRow)
+			f.Intrinsic.String.Concat(v.Local.sMasterRows,v.Ambient.NewLine,v.Local.sRow,v.Local.sMasterRows)
+			
+			'Set Part
+			v.Local.iQty.Set(v.DataTable.dtJobs(v.Local.i).QTY_ORDER!Fieldval)
+			
+			f.Intrinsic.String.Concat("PART,",v.DataTable.dtJobs(v.Local.i).PART!fieldvaltrim,",",v.DataTable.dtJobs(v.Local.i).MATERIAL!fieldval,",",v.DataTable.dtJobs(v.Local.i).Thickness!fieldval,",",v.Local.iQty,",","DXF,",v.DataTable.dtJobs(v.Local.i).File!fieldvaltrim,v.Ambient.NewLine,v.Ambient.NewLine,v.Local.sRow)
+			f.Intrinsic.String.Concat(v.Local.sMasterRows,V.Ambient.NewLine,v.Local.sRow,v.Local.sMasterRows)
+		f.Intrinsic.Control.EndIf	
+	f.Intrinsic.Control.Next(v.Local.i)
+	
+	f.Intrinsic.String.Concat(v.Caller.TempDir,"\SIGAMNEST_EXPORT_",v.Local.sTimeStamp,".WOL",v.Local.sFile)
+	f.Intrinsic.File.String2File(v.Local.sFile,v.Local.sMasterRows)
+	
+	f.Intrinsic.Task.ShellExec(1,"",v.Caller.TempDir,"","",1)
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.UI.Msgbox(v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(frmJobExport_UnLoad)
+f.Intrinsic.Control.EndTry
+Program.Sub.frmJobExport_ExportClick.End
+
+Program.Sub.Comments.Start
+${$5$}$20.1.8256.24238$}$1
+${$6$}$pressing$}$20221023143358627$}$PSy2e0mDO0X+b595c+kxeCVdGd7JAo+m2NyvXf4XbfaUdDaWzGPsHfo3UZz8aCQUnW758lrMXkC1yKbBjYVqnw==
+Program.Sub.Comments.End
