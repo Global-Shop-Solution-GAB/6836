@@ -1,0 +1,461 @@
+﻿Program.Sub.ScreenSU.Start
+Gui.frmImportNest..Create(DashForm)
+Gui.frmImportNest..Caption("Import Nest from Sigmanest")
+Gui.frmImportNest..Size(15360,10800)
+Gui.frmImportNest..MinX(0)
+Gui.frmImportNest..MinY(0)
+Gui.frmImportNest..Position(0,0)
+Gui.frmImportNest..AlwaysOnTop(False)
+Gui.frmImportNest..FontName("Tahoma")
+Gui.frmImportNest..FontSize(8.25)
+Gui.frmImportNest..ControlBox(True)
+Gui.frmImportNest..MaxButton(True)
+Gui.frmImportNest..MinButton(True)
+Gui.frmImportNest..MousePointer(0)
+Gui.frmImportNest..Moveable(True)
+Gui.frmImportNest..Sizeable(True)
+Gui.frmImportNest..ShowInTaskBar(True)
+Gui.frmImportNest..TitleBar(True)
+Gui.frmImportNest..BarRefreshButton(True)
+Gui.frmImportNest..Event(SaveButtonClick,frmImportNest_SaveButtonClick)
+Gui.frmImportNest..Event(UserButtonClicked,frmImportNest_UserButtonClicked)
+Gui.frmImportNest..Event(RefreshClick,frmImportNest_RefreshClick)
+Gui.frmImportNest..Event(UnLoad,frmImportNest_UnLoad)
+Gui.frmImportNest..BarSaveButton(True,False)
+Gui.frmImportNest.gsgcNests.Create(GsGridControl)
+Gui.frmImportNest.gsgcNests.Enabled(True)
+Gui.frmImportNest.gsgcNests.Visible(True)
+Gui.frmImportNest.gsgcNests.Zorder(0)
+Gui.frmImportNest.gsgcNests.Size(15360,10350)
+Gui.frmImportNest.gsgcNests.Position(0,0)
+Gui.frmImportNest.gsgcNests.Dock(5)
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+F.Intrinsic.Control.Try
+	F.ODBC.Connection!conSQL.openconnection("Driver={SQL Server}; Server=SMC2K15\SIGMANEST; Database=SNDBaseX1.3; User Id=SNUser; Password=BestNest1445")
+	f.ODBC.Connection!con.Opencompanyconnection(90)
+	f.Intrinsic.Control.CallSub(loadData)
+	f.Intrinsic.Control.CallSub(setProperties)
+	
+	gui.frmImportNest..BarAddButton("DeleteNest","Delete Nest")
+	gui.frmImportNest..Show
+	
+F.Intrinsic.Control.Catch	
+	f.Intrinsic.UI.Msgbox(v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(frmImportNest_UnLoad)
+F.Intrinsic.Control.EndTry
+Program.Sub.Main.End
+
+Program.Sub.loadData.Start
+f.Intrinsic.Control.Try
+	f.Intrinsic.Control.If(v.DataTable.dtSigmaNests.Exists)
+
+		F.Data.Datatable.Close("dtSigmaNests")
+		f.Data.DataTable.CreateFromSQL("dtSigmaNests","conSQL","SELECT DISTINCT CAST(0 AS BIT) AS 'SelectNest', A.Programname as Programname, PostDateTime FROM PIP A Left join PROGRAM B on A.Programname = B.Programname Order by PostDateTime Desc", true)
+		gui.frmImportNest.gsgcNests.datasource("dtSigmaNests")
+		f.Intrinsic.Control.CallSub(setProperties)
+		
+	f.Intrinsic.Control.Else
+		f.Data.DataTable.CreateFromSQL("dtSigmaNests","conSQL","SELECT DISTINCT CAST(0 AS BIT) AS 'SelectNest', A.Programname as Programname, PostDateTime FROM PIP A Left join PROGRAM B on A.Programname = B.Programname Order by PostDateTime Desc", true)
+		gui.frmImportNest.gsgcNests.datasource("dtSigmaNests")
+	f.Intrinsic.Control.EndIf
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.UI.Msgbox(v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(frmImportNest_UnLoad)
+f.Intrinsic.Control.EndTry
+Program.Sub.loadData.End
+
+Program.Sub.setProperties.Start
+f.Intrinsic.Control.Try
+	
+	Gui.frmImportNest.gsgcNests.SuspendLayout()
+	Gui.frmImportNest.gsgcNests.AddGridviewFromDatatable("gvSigmaNests","dtSigmaNests")
+	Gui.frmImportNest.gsgcNests.SetGridViewProperty("gvSigmaNests","OptionsViewShowGroupPanel",True)
+	gui.frmImportNest.gsgcNests.SetGridViewProperty("gvSigmaNests","MultiSelect",True)
+	gui.frmImportNest.gsgcNests.Setgridviewproperty("gvSigmaNests","multiselectmode",2)
+	gui.frmImportNest.gsgcNests.Setgridviewproperty("gvSigmaNests","CheckBoxSelectorField","SelectNest")
+	
+	gui.frmImportNest.gsgcNests.SetColumnProperty("gvSigmaNests","SelectNest","Visible",False)
+	
+	gui.frmImportNest.gsgcNests.SetColumnProperty("gvSigmaNests","Programname","AllowEdit", False)
+	gui.frmImportNest.gsgcNests.SetColumnProperty("gvSigmaNests","Programname","HeaderHAlignment","Center")
+	gui.frmImportNest.gsgcNests.SetColumnProperty("gvSigmaNests","Programname","ReadOnly", True)
+	Gui.frmImportNest.gsgcNests.SetColumnProperty("gvSigmaNests","Programname","Width","200")
+	Gui.frmImportNest.gsgcNests.SetColumnProperty("gvSigmaNests","Programname","MinWidth","200")
+	Gui.frmImportNest.gsgcNests.SetColumnProperty("gvSigmaNests","Programname","HeaderFontBold",True)
+	Gui.frmImportNest.gsgcNests.SetColumnProperty("gvSigmaNests","Programname","Caption","Program Name")
+	
+		
+	gui.frmImportNest.gsgcNests.SetColumnProperty("gvSigmaNests","PostDateTime","AllowEdit", False)
+	gui.frmImportNest.gsgcNests.SetColumnProperty("gvSigmaNests","PostDateTime","HeaderHAlignment","Center")
+	gui.frmImportNest.gsgcNests.SetColumnProperty("gvSigmaNests","PostDateTime","ReadOnly", True)
+	Gui.frmImportNest.gsgcNests.SetColumnProperty("gvSigmaNests","PostDateTime","Width","200")
+	Gui.frmImportNest.gsgcNests.SetColumnProperty("gvSigmaNests","PostDateTime","MinWidth","200")
+	Gui.frmImportNest.gsgcNests.SetColumnProperty("gvSigmaNests","PostDateTime","HeaderFontBold",True)
+	Gui.frmImportNest.gsgcNests.SetColumnProperty("gvSigmaNests","PostDateTime","Caption","Post DateTime")
+	Gui.frmImportNest.gsgcNests.ResumeLayout()
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.UI.Msgbox(v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(frmImportNest_UnLoad)
+f.Intrinsic.Control.EndTry
+Program.Sub.setProperties.End
+
+Program.Sub.frmImportNest_RefreshClick.Start
+f.Intrinsic.Control.Try
+	f.Intrinsic.Control.CallSub(loadData)
+f.Intrinsic.Control.Catch
+	f.Intrinsic.UI.Msgbox(v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(frmImportNest_UnLoad)
+f.Intrinsic.Control.EndTry
+Program.Sub.frmImportNest_RefreshClick.End
+
+Program.Sub.frmImportNest_SaveButtonClick.Start
+f.Intrinsic.Control.Try
+	v.Local.i.Declare
+	v.Local.j.Declare(long)
+	v.Local.sRet.Declare
+	V.Local.sMsg.Declare
+	v.Local.sFullMsg.Declare
+	v.Local.sMaterial.Declare
+	v.Local.sGSSMaterial.Declare
+	v.Local.sSchedNumProg.Declare
+	v.Local.sSchedNumLoad.Declare
+	v.Local.sSchedNumUnLoad.Declare
+	v.Local.sSchedNumOP.Declare
+	v.Local.sSchedNumCut.Declare
+	v.Local.fSchedNum.Declare
+	v.Local.sMatMsg.Declare
+	v.Local.fThick.Declare
+	v.Local.fLength.Declare
+	v.Local.fLength1.Declare
+	v.Local.fLength2.Declare
+	v.Local.fWidth.Declare
+	v.Local.fWidth1.Declare
+	v.Local.fWidth2.Declare
+	V.Local.fTotal.Declare
+	v.Local.fCutTime.Declare
+	V.Local.dDueDate.Declare
+	v.Local.iIncrement.Declare
+	v.Local.iCount.Declare
+	
+	V.Local..BulkDeclareString(sParam, sError,sSQL,sIncrement,sSchedNum,sMJob,sMSuffix,sMSeq,sJob,sSuffix,sSeq,sFiller,sFiller2,sPart,sWorkCenter,sLine,sFileName,sWG,sProgLine,sLoadLine,sUnloadLine,sOPLine,sCutLine,sWCLas)
+
+	
+	f.Intrinsic.Control.For(v.Local.i,0,v.DataTable.dtSigmaNests.RowCount--)
+		f.Intrinsic.Control.If(v.DataTable.dtSigmaNests(v.Local.i).SelectNest!fieldval)
+			f.Intrinsic.Control.If(v.DataTable.dtSigmaNests(v.Local.i).RowState,<>,8)
+			
+				'Check if in database first
+				f.Intrinsic.String.Build("SELECT * FROM GAB_6836_SIGMANEST WHERE NestID='{0}'",V.DataTable.dtSigmaNests(V.Local.I).ProgramName!fieldvaltrim,v.Local.ssql)
+				f.ODBC.Connection!con.ExecuteAndReturn(v.Local.ssql,v.Local.sRet)
+				f.Intrinsic.Control.If(v.Local.sRet.Trim,=,"")
+				
+					'Grab the last Flex Schedule Number
+					V.Local.sSQL.Set("Select Last_PO_Num From Last_PO Where Ass_Sys = 'SCH' and Ass_Sub_Sys = 'OPT'")
+					F.ODBC.Connection!Con.ExecuteAndReturn(V.Local.sSQL,V.Local.sSchedNum)
+					
+					'Programming Flex Schedule
+					F.Intrinsic.String.Left(V.Local.sSchedNum,6,V.Local.sSchedNum)
+					F.Intrinsic.Math.Add(V.Local.sSchedNum.Long,1,V.Local.fSchedNum)
+					V.Local.sSchedNum.Set(V.Local.fSchedNum)
+					F.Intrinsic.String.Format(v.Local.sSchedNum,"000000",v.Local.sSchedNumProg)
+					f.Intrinsic.String.Concat(v.Local.sParam,v.Ambient.DblQuote,v.Local.sSchedNumProg,v.Ambient.DblQuote," ",v.Local.sParam)
+					
+					'Loading
+					F.Intrinsic.String.Left(V.Local.sSchedNum,6,V.Local.sSchedNum)
+					F.Intrinsic.Math.Add(V.Local.sSchedNum.Long,1,V.Local.fSchedNum)
+					V.Local.sSchedNum.Set(V.Local.fSchedNum)
+					F.Intrinsic.String.Format(v.Local.sSchedNum,"000000",v.Local.sSchedNumLoad)
+					
+					'UnLoading
+					F.Intrinsic.String.Left(V.Local.sSchedNum,6,V.Local.sSchedNum)
+					F.Intrinsic.Math.Add(V.Local.sSchedNum.Long,1,V.Local.fSchedNum)
+					V.Local.sSchedNum.Set(V.Local.fSchedNum)
+					F.Intrinsic.String.Format(v.Local.sSchedNum,"000000",v.Local.sSchedNumUnLoad)
+					
+					'Operator
+					F.Intrinsic.String.Left(V.Local.sSchedNum,6,V.Local.sSchedNum)
+					F.Intrinsic.Math.Add(V.Local.sSchedNum.Long,1,V.Local.fSchedNum)
+					V.Local.sSchedNum.Set(V.Local.fSchedNum)
+					F.Intrinsic.String.Format(v.Local.sSchedNum,"000000",v.Local.sSchedNumOP)
+					
+					'Cut
+					F.Intrinsic.String.Left(V.Local.sSchedNum,6,V.Local.sSchedNum)
+					F.Intrinsic.Math.Add(V.Local.sSchedNum.Long,1,V.Local.fSchedNum)
+					V.Local.sSchedNum.Set(V.Local.fSchedNum)
+					F.Intrinsic.String.Format(v.Local.sSchedNum,"000000",v.Local.sSchedNumCut)
+					
+					F.Intrinsic.String.Build("Update Last_PO Set Last_PO_Num = '{0}' + substring(Last_PO_Num,7,1) Where Ass_Sys = 'SCH' and Ass_Sub_Sys = 'OPT'",V.Local.sSchedNumCut,V.Local.sSQL)
+					F.ODBC.Connection!Con.Execute(V.Local.sSql)
+					
+					
+					
+					'Grab Remnants
+					F.Intrinsic.String.Build("SELECT * FROM Remnant WHERE ProgramName='{0}'",v.DataTable.dtSigmaNests(v.Local.i).ProgramName!fieldvaltrim,v.Local.ssql)
+					f.Intrinsic.Control.If(v.DataTable.dtRem.Exists)
+						f.Data.Datatable.Close("dtRem")
+					f.Intrinsic.Control.EndIf
+					f.Data.Datatable.CreateFromSQL("dtRem","conSQL",v.Local.ssql)
+					f.Intrinsic.Control.For(v.Local.j,0,v.DataTable.dtRem.RowCount--,1)
+						v.Local.sSQL.Set("INSERT INTO GAB_6836_OFFCUTS (NESTID, OFFCUT_GSSPART, OFFCUT_LENGTH, OFFCUT_WIDTH, OFFCUT_SM, OFFCUT_NAME) VALUES ('{0}','{1}',{2},{3},{4},'{5}')")
+						f.Intrinsic.String.Build(v.Local.sSql,v.DataTable.dtRem(v.Local.j).ProgramName!fieldvaltrim,"",v.DataTable.dtRem(v.Local.j).Length!fieldval,v.DataTable.dtRem(v.Local.j).Width!fieldval,0,v.DataTable.dtRem(v.Local.j).RemnantName!fieldval,v.Local.ssql)
+						f.ODBC.Connection!con.execute(v.Local.sSql)
+					f.Intrinsic.Control.Next(v.Local.j)
+					
+					
+					'Grab from PIP
+					F.Intrinsic.String.Build("SELECT * FROM PIP WHERE ProgramName='{0}'",v.DataTable.dtSigmaNests(v.Local.i).ProgramName!fieldvaltrim,v.Local.ssql)
+					f.Intrinsic.Control.If(v.DataTable.dtND.Exists)
+						f.Data.Datatable.Close("dtND")
+					f.Intrinsic.Control.EndIf
+					f.Data.Datatable.CreateFromSQL("dtND","conSQL",v.Local.ssql)
+					
+					f.Intrinsic.Control.For(v.Local.j,0,v.DataTable.dtND.RowCount--,1)
+						'Grab Distinct Material from the Sigmanest Database
+						f.Intrinsic.String.Build("SELECT DISTINCT MATERIAL, thickness, SHEETLENGTH, SHEETWIDTH FROM Program where ProgramName='{0}'",v.DataTable.dtSigmaNests(v.Local.i).ProgramName!fieldvaltrim,v.Local.ssql)
+						f.ODBC.Connection!conSQL.ExecuteAndReturn(v.Local.ssql,v.Local.sRet)
+						f.Intrinsic.String.Split(v.Local.sRet,"*!*",v.Local.sRet)
+						v.Local.sMaterial.Set(v.Local.sRet(0))
+						v.Local.fThick.Set(v.Local.sRet(1))
+						v.Local.fLength.Set(v.Local.sRet(2))
+						f.Intrinsic.Math.Sub(v.Local.fLength,150,v.Local.fLength1)
+						F.Intrinsic.Math.Add(v.Local.fLength,150,v.Local.fLength2)
+						v.Local.fWidth.Set(v.Local.sRet(3))
+						f.Intrinsic.Math.Sub(v.Local.fWidth,150,v.Local.fWidth1)
+						f.Intrinsic.Math.Add(v.Local.fWidth,150,v.Local.fWidth2)
+						
+						'Get GSS Material
+						f.Intrinsic.String.Build("SELECT PART FROM V_INVENTORY_ALL WHERE UCASE(TEXT_INFO2)='{0}' AND thickness='{1}' AND (LENGTH>='{2}' and length<='{3}') AND (WIDTH>='{4}' and WIDTH<='{5}')",v.Local.sMaterial.UCase,v.Local.fThick,v.Local.fLength1,v.Local.fLength2,v.Local.fWidth1,v.Local.fWidth2,v.Local.ssql)
+						f.ODBC.Connection!con.ExecuteAndReturn(v.Local.ssql,v.Local.sGSSMaterial)
+						f.Intrinsic.Control.If(v.Local.sGSSMaterial.Trim,=,"")
+							f.Intrinsic.String.Concat(v.Local.sMatMsg,"WARNING: ",v.Local.sMaterial.Trim," Thickness ", v.Local.fThick,", ","Length ",v.Local.fLength,",Width ",v.Local.fWidth," not found in Global Shop.",v.Ambient.NewLine,v.Local.sMatMsg)
+							f.Intrinsic.String.Build("SELECT TOP 1 PART FROM V_INVENTORY_ALL WHERE TEXT_INFO2='{0}' AND thickness='{1}'",v.Local.sMaterial,v.Local.fThick,v.Local.ssql)
+							f.ODBC.Connection!con.ExecuteAndReturn(v.Local.ssql,v.Local.sGSSMaterial)
+						f.Intrinsic.Control.EndIf
+						
+						'Insert into Global Shop DB
+						v.Local.ssql.Set("INSERT INTO GAB_6836_SIGMANEST (NestID, WorkOrder, FlexSchedule, FlexScheduleSuffix, ProductionPackage, Material, RunQty, GSSMaterial,PartLength,PartWidth,CutTime,FlexScheduleLoad,FlexScheduleUnload,FlexScheduleOP,FlexScheduleCut) VALUES ('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}',{8},{9},{10},'{11}','{12}','{13}','{14}')")
+						f.Intrinsic.String.Build(v.Local.ssql,v.DataTable.dtND(v.Local.j).ProgramName!fieldvaltrim,v.DataTable.dtND(v.Local.j).WONumber!fieldvaltrim,v.Local.sSchedNumProg,000,"",v.Local.sMaterial,v.DataTable.dtND(v.Local.j).QtyInProcess!fieldval,v.Local.sGSSMaterial,v.DataTable.dtND(v.Local.j).PartLength!fieldval,v.DataTable.dtND(v.Local.j).PartWidth!fieldval,v.DataTable.dtND(v.Local.j).CuttingTime!fieldval,v.Local.sSchedNumLoad,v.Local.sSchedNumUnLoad,V.Local.sSchedNumOP,v.Local.sSchedNumCut,v.Local.ssql)
+						f.ODBC.Connection!con.Execute(v.Local.ssql)
+						
+						
+						
+						'Format Flex Schedule for upload
+						F.Intrinsic.String.Left(v.DataTable.dtND(v.Local.j).WONumber!fieldvaltrim,6,V.Local.sJob)
+						F.Intrinsic.String.Right(v.DataTable.dtND(v.Local.j).WONumber!fieldvaltrim,3,V.Local.sSuffix)
+						F.Intrinsic.String.Left(v.DataTable.dtND(v.Local.j).WONumber!fieldvaltrim,6,V.Local.sMJob)
+						F.Intrinsic.String.Right(v.DataTable.dtND(v.Local.j).WONumber!fieldvaltrim,3,V.Local.sMSuffix)
+						
+						
+
+						'Get the laser WC code
+						f.Intrinsic.String.Build("SELECT OPERATION FROM JOB_OPERATIONS WHERE JOB='{0}' AND SUFFIX='' AND SEQ='000200' ",V.Local.sJob,v.Local.sSql)
+						f.ODBC.Connection!con.executeandreturn(v.Local.sSql,v.Local.sWCLas)
+						
+						'Update the work order with updated workcentre, flush code, and cut time, PART , OPERATION , and HOURS_ESTIMATED, MAKE SURE TO MULTIPLY QTY * CUTTIME!
+						F.Intrinsic.Control.If(V.Local.sWCLas.Trim,<>,"FLUSH")
+							f.Intrinsic.Control.If(v.DataTable.dtND(v.Local.j).CuttingTime!fieldval,<>,0)
+								f.Intrinsic.Math.Div(v.DataTable.dtND(v.Local.j).CuttingTime!fieldval,60,v.Local.fCutTime)
+								f.Intrinsic.Math.Div(v.Local.fCutTime,60,v.Local.fCutTime)
+							f.Intrinsic.Control.EndIf
+							f.Intrinsic.Math.Mult(v.DataTable.dtND(v.Local.j).QtyInProcess!fieldval,v.Local.fCutTime,v.Local.fTotal)
+							f.Intrinsic.String.build("UPDATE JOB_OPERATIONS SET PART='{0}', OPERATION='{1}', HOURS_ESTIMATED='{2}' WHERE JOB='{3}' AND SUFFIX='{4}' AND SEQ='000200'",v.Local.sWCLas,"FLUSH",v.Local.fTotal,v.Local.sJob,"",v.Local.ssql)
+							f.ODBC.Connection!con.execute(v.Local.sSql)
+						F.Intrinsic.Control.EndIf
+						
+						'Set Material Sequence
+						V.Local.sMSeq.Set("000100")
+						V.Local.sPart.Set(v.Local.sGSSMaterial)
+						
+						
+						F.Intrinsic.Math.Add(V.Local.iIncrement,1,V.Local.iIncrement)
+						F.Intrinsic.String.Format(V.Local.iIncrement,"000000",V.Local.sIncrement)
+						V.Local.sFiller.Set("000000999999")
+						V.Local.sFiller2.Set("000000999999")
+						
+						
+						'Programming is always 50
+						'Material is always 100
+						'Loading is always 190
+						'Cutting is always 200
+						'Unloading is always 210
+						'QA is always always 220
+						
+						'Pad all the values to match up with the txt upload format
+						
+						'Programming First
+						v.Local.sWorkcenter.Set("PCUT")
+						F.Intrinsic.String.RPad(V.Local.sJob," ",6,V.Local.sJob)
+						F.Intrinsic.String.RPad(V.Local.sSuffix," ",3,V.Local.sSuffix)
+						F.Intrinsic.String.RPad("000050"," ",6,V.Local.sSeq)
+						F.Intrinsic.String.RPad(V.Local.sWorkCenter," ",4,V.Local.sWorkCenter)
+						F.Intrinsic.String.RPad(V.Local.sMJob," ",6,V.Local.sMJob)
+						F.Intrinsic.String.RPad(V.Local.sMSuffix," ",3,V.Local.sMSuffix)
+						F.Intrinsic.String.RPad(V.Local.sMSeq," ",11,V.Local.sMSeq)
+						F.Intrinsic.String.RPad(V.Local.sPart," ",25,V.Local.sPart)
+						F.Intrinsic.String.RPad(V.Local.sSchedNum," ",9,V.Local.sSchedNum)
+						F.Intrinsic.String.RPad(V.Local.sIncrement," ",6,V.Local.sIncrement)
+						F.Intrinsic.String.RPad(V.Local.sFiller," ",37,V.Local.sFiller)
+						F.Intrinsic.String.RPad(V.Local.sFiller2," ",12,V.Local.sFiller2)
+						F.Intrinsic.String.Build("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}",V.Local.sProgLine,V.Local.sSchedNumProg,"   ",V.Local.sIncrement,V.Local.sMJob,V.Local.sMSuffix,V.Local.sMSeq,V.Local.sJob,V.Local.sSuffix,V.Local.sSeq,V.Local.sFiller,V.Local.sWorkCenter,V.Local.sPart,V.Local.sFiller2,V.Ambient.NewLine,V.Local.sProgLine)
+						F.Intrinsic.Math.Add(V.Local.iIncrement,1,V.Local.iIncrement)
+						F.Intrinsic.String.Format(V.Local.iIncrement,"000000",V.Local.sIncrement)
+						
+						'Loading next
+						v.Local.sWorkcenter.Set("MFG")
+						F.Intrinsic.String.RPad(V.Local.sJob," ",6,V.Local.sJob)
+						F.Intrinsic.String.RPad(V.Local.sSuffix," ",3,V.Local.sSuffix)
+						F.Intrinsic.String.RPad("000190"," ",6,v.Local.sSeq)
+						F.Intrinsic.String.RPad(V.Local.sWorkCenter," ",4,V.Local.sWorkCenter)
+						F.Intrinsic.String.RPad(V.Local.sMJob," ",6,V.Local.sMJob)
+						F.Intrinsic.String.RPad(V.Local.sMSuffix," ",3,V.Local.sMSuffix)
+						F.Intrinsic.String.RPad(V.Local.sMSeq," ",11,V.Local.sMSeq)
+						F.Intrinsic.String.RPad(V.Local.sPart," ",25,V.Local.sPart)
+						F.Intrinsic.String.RPad(V.Local.sSchedNum," ",9,V.Local.sSchedNum)
+						F.Intrinsic.String.RPad(V.Local.sIncrement," ",6,V.Local.sIncrement)
+						F.Intrinsic.String.RPad(V.Local.sFiller," ",37,V.Local.sFiller)
+						F.Intrinsic.String.RPad(V.Local.sFiller2," ",12,V.Local.sFiller2)
+						F.Intrinsic.String.Build("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}",V.Local.sLoadLine,V.Local.sSchedNumLoad,"   ",V.Local.sIncrement,V.Local.sMJob,V.Local.sMSuffix,V.Local.sMSeq,V.Local.sJob,V.Local.sSuffix,V.Local.sSeq,V.Local.sFiller,V.Local.sWorkCenter,V.Local.sPart,V.Local.sFiller2,V.Ambient.NewLine,V.Local.sLoadLine)
+						F.Intrinsic.Math.Add(V.Local.iIncrement,1,V.Local.iIncrement)
+						F.Intrinsic.String.Format(V.Local.iIncrement,"000000",V.Local.sIncrement)
+											
+						'Laser
+						v.Local.sWorkcenter.Set("LAS1")
+						F.Intrinsic.String.RPad(V.Local.sJob," ",6,V.Local.sJob)
+						F.Intrinsic.String.RPad(V.Local.sSuffix," ",3,V.Local.sSuffix)
+						F.Intrinsic.String.RPad("000200"," ",6,v.Local.sSeq)
+						F.Intrinsic.String.RPad(V.Local.sWorkCenter," ",4,V.Local.sWorkCenter)
+						F.Intrinsic.String.RPad(V.Local.sMJob," ",6,V.Local.sMJob)
+						F.Intrinsic.String.RPad(V.Local.sMSuffix," ",3,V.Local.sMSuffix)
+						F.Intrinsic.String.RPad(V.Local.sMSeq," ",11,V.Local.sMSeq)
+						F.Intrinsic.String.RPad(V.Local.sPart," ",25,V.Local.sPart)
+						F.Intrinsic.String.RPad(V.Local.sSchedNum," ",9,V.Local.sSchedNum)
+						F.Intrinsic.String.RPad(V.Local.sIncrement," ",6,V.Local.sIncrement)
+						F.Intrinsic.String.RPad(V.Local.sFiller," ",37,V.Local.sFiller)
+						F.Intrinsic.String.RPad(V.Local.sFiller2," ",12,V.Local.sFiller2)
+						F.Intrinsic.String.Build("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}",V.Local.sCutLine,V.Local.sSchedNumCut,"   ",V.Local.sIncrement,V.Local.sMJob,V.Local.sMSuffix,V.Local.sMSeq,V.Local.sJob,V.Local.sSuffix,V.Local.sSeq,V.Local.sFiller,V.Local.sWorkCenter,V.Local.sPart,V.Local.sFiller2,V.Ambient.NewLine,V.Local.sCutLine)
+						
+						'Unloading
+						v.Local.sWorkcenter.Set("MFG")
+						F.Intrinsic.String.RPad(V.Local.sJob," ",6,V.Local.sJob)
+						F.Intrinsic.String.RPad(V.Local.sSuffix," ",3,V.Local.sSuffix)
+						F.Intrinsic.String.RPad("000210"," ",6,v.Local.sSeq)
+						F.Intrinsic.String.RPad(V.Local.sWorkCenter," ",4,V.Local.sWorkCenter)
+						F.Intrinsic.String.RPad(V.Local.sMJob," ",6,V.Local.sMJob)
+						F.Intrinsic.String.RPad(V.Local.sMSuffix," ",3,V.Local.sMSuffix)
+						F.Intrinsic.String.RPad(V.Local.sMSeq," ",11,V.Local.sMSeq)
+						F.Intrinsic.String.RPad(V.Local.sPart," ",25,V.Local.sPart)
+						F.Intrinsic.String.RPad(V.Local.sSchedNum," ",9,V.Local.sSchedNum)
+						F.Intrinsic.String.RPad(V.Local.sIncrement," ",6,V.Local.sIncrement)
+						F.Intrinsic.String.RPad(V.Local.sFiller," ",37,V.Local.sFiller)
+						F.Intrinsic.String.RPad(V.Local.sFiller2," ",12,V.Local.sFiller2)
+						F.Intrinsic.String.Build("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}",V.Local.sUnloadLine,V.Local.sSchedNumUnLoad,"   ",V.Local.sIncrement,V.Local.sMJob,V.Local.sMSuffix,V.Local.sMSeq,V.Local.sJob,V.Local.sSuffix,V.Local.sSeq,V.Local.sFiller,V.Local.sWorkCenter,V.Local.sPart,V.Local.sFiller2,V.Ambient.NewLine,V.Local.sUnloadLine)
+						F.Intrinsic.Math.Add(V.Local.iIncrement,1,V.Local.iIncrement)
+						F.Intrinsic.String.Format(V.Local.iIncrement,"000000",V.Local.sIncrement)
+						
+						'OP
+						F.Intrinsic.String.RPad(V.Local.sJob," ",6,V.Local.sJob)
+						F.Intrinsic.String.RPad(V.Local.sSuffix," ",3,V.Local.sSuffix)
+						F.Intrinsic.String.RPad("000205"," ",6,v.Local.sSeq)
+						F.Intrinsic.String.RPad(V.Local.sWorkCenter," ",4,V.Local.sWorkCenter)
+						F.Intrinsic.String.RPad(V.Local.sMJob," ",6,V.Local.sMJob)
+						F.Intrinsic.String.RPad(V.Local.sMSuffix," ",3,V.Local.sMSuffix)
+						F.Intrinsic.String.RPad(V.Local.sMSeq," ",11,V.Local.sMSeq)
+						F.Intrinsic.String.RPad(V.Local.sPart," ",25,V.Local.sPart)
+						F.Intrinsic.String.RPad(V.Local.sSchedNum," ",9,V.Local.sSchedNum)
+						F.Intrinsic.String.RPad(V.Local.sIncrement," ",6,V.Local.sIncrement)
+						F.Intrinsic.String.RPad(V.Local.sFiller," ",37,V.Local.sFiller)
+						F.Intrinsic.String.RPad(V.Local.sFiller2," ",12,V.Local.sFiller2)
+						F.Intrinsic.String.Build("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14}",V.Local.sOPLine,V.Local.sSchedNumOP,"   ",V.Local.sIncrement,V.Local.sMJob,V.Local.sMSuffix,V.Local.sMSeq,V.Local.sJob,V.Local.sSuffix,V.Local.sSeq,V.Local.sFiller,V.Local.sWorkCenter,V.Local.sPart,V.Local.sFiller2,V.Ambient.NewLine,V.Local.sOPLine)
+		
+		
+					f.Intrinsic.Control.Next(v.Local.j)
+					
+				f.Intrinsic.Control.Else
+					f.Intrinsic.String.Concat(V.DataTable.dtSigmaNests(V.Local.I).ProgramName!fieldvaltrim," already exists in Global Shop, skipping record.",v.Local.sMsg)
+					f.Intrinsic.String.Concat(v.Local.sFullMsg,v.Local.sMsg,v.Ambient.NewLine,v.Local.sFullMsg)
+				f.Intrinsic.Control.EndIf
+			F.Intrinsic.Control.EndIf
+		f.Intrinsic.Control.EndIf
+	f.Intrinsic.Control.Next(v.Local.i)
+	
+	
+'	F.Intrinsic.String.Build("{0}\SCHED.TXT",V.Caller.FilesDir,V.Local.sFileName)
+'	f.Intrinsic.String.Concat(v.Local.sProgLine,v.Local.sLoadLine,v.Local.sUnloadLine,v.Local.sOPLine,v.Local.sCutLine,v.Local.sLine)
+'	F.Intrinsic.File.String2File(V.Local.sFileName,V.Local.sLine)
+	
+	'Runs the upload utility for flex schedules
+	'F.Global.General.CallWrapperSync(6000,"NS!*!50")
+	v.Local.sName.Declare
+	v.Local.sName.Set("FlexSchedule")
+	f.Intrinsic.String.split(v.Local.sName,"*!*",v.Local.sName)
+	
+	f.Intrinsic.String.Split(v.Local.sparam,"*!*",v.Local.sParam)
+	v.Local.sReport.Declare
+	v.Local.sReport.Set("GAB_6836_FLEXSCHEDULES.rpt")
+	v.Local.iBIID.Declare
+	f.Global.BI.GetIDFromName(v.Local.sReport,v.Local.iBIID)
+	'f.Global.BI.PrintReport(v.Local.iBIID,0,v.Local.sName,v.Local.sParam,false)
+
+
+	F.Intrinsic.String.Concat(V.Local.sFullMsg,V.Local.sMatMsg,V.Local.sFullMsg)
+	
+	'f.Intrinsic.Control.If(v.Local.sFullMsg.Trim,=,"")
+		f.Intrinsic.UI.Msgbox("Successfully Imported all Nests.")
+'	f.Intrinsic.Control.Else
+'		f.Intrinsic.String.Concat(v.Local.sFullMsg,V.Ambient.NewLine, "Nesting import complete.",v.Local.sFullMsg)
+'		f.Intrinsic.UI.Msgbox(v.Local.sFullMsg)
+'	f.Intrinsic.Control.EndIf
+	
+	
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.UI.Msgbox(v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(frmImportNest_UnLoad)
+f.Intrinsic.Control.EndTry
+Program.Sub.frmImportNest_SaveButtonClick.End
+
+Program.Sub.frmImportNest_UnLoad.Start
+f.ODBC.connection!conSQL.Close
+f.ODBC.Connection!con.Close
+f.Intrinsic.Control.End
+Program.Sub.frmImportNest_UnLoad.End
+
+Program.Sub.frmImportNest_UserButtonClicked.Start
+f.Intrinsic.Control.Try
+	v.Local.i.Declare
+	v.Local.sSql.Declare
+	
+	f.Intrinsic.Control.SelectCase(v.Args.Button)
+		f.Intrinsic.Control.Case("DeleteNest")
+			f.Intrinsic.Control.For(v.Local.i,0,V.DataTable.dtSigmaNests.RowCount--,1)
+				f.Intrinsic.Control.If(v.DataTable.dtSigmaNests(v.Local.i).SelectNest!fieldval)
+			
+					f.Intrinsic.String.Build("DELETE FROM GAB_6836_SIGMANEST WHERE NESTID='{0}'",v.DataTable.dtSigmanests(v.Local.i).Programname!Fieldvaltrim,V.Local.sSql)
+					f.ODBC.Connection!con.Execute(v.Local.sSql)
+					
+					f.Intrinsic.String.Build("DELETE FROM GAB_6836_OFFCUTS WHERE NESTID='{0}'",v.DataTable.dtSigmanests(v.Local.i).Programname!Fieldvaltrim,V.Local.sSql)
+					f.ODBC.Connection!con.Execute(v.Local.sSql)
+				f.Intrinsic.Control.EndIf
+				
+			f.Intrinsic.Control.Next(V.Local.i)
+			F.Intrinsic.UI.Msgbox("Nest Deleted.")
+
+	f.Intrinsic.Control.EndSelect
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.UI.Msgbox(v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(frmImportNest_UnLoad)
+f.Intrinsic.Control.EndTry
+Program.Sub.frmImportNest_UserButtonClicked.End
+
+Program.Sub.Comments.Start
+${$5$}$2.0.0.0$}$2
+${$6$}$sstanka$}$20240123161550721$}$mP+zz5Tw3sT2/nyap+FbWm4triMPqjXDS0Vm3GYkpfSVEtnr3l3ATe3sZomVdE0hWXL+XY4w6ZY=
+Program.Sub.Comments.End
